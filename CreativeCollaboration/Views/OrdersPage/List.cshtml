@@ -1,0 +1,153 @@
+﻿@model IEnumerable<OrderDto>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="order-container">
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="header-actions">
+        <a asp-action="Add" class="btn btn-primary">+ Create New Order</a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Customer</th>
+                    <th>Total Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.OrderId</td>
+                        <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                        <td>@order.CustomerName</td>
+                        <td>@order.TotalOrderPrice.ToString("C")</td>
+                        <td class="action-buttons">
+                            <a class="btn btn-info" href="@Url.Action("Details", "OrdersPage", new { id = order.OrderId })">View</a>
+                            <a class="btn btn-warning" href="@Url.Action("Edit", "OrdersPage", new { id = order.OrderId })">Edit</a>
+                            <a class="btn btn-danger" href="@Url.Action("Delete", "OrdersPage", new { id = order.OrderId })">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    /* Page Container */
+    .order-container {
+        max-width: 950px;
+        margin: 40px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #343a40;
+        margin-bottom: 20px;
+    }
+
+    /* Header Actions */
+    .header-actions {
+        text-align: right;
+        margin-bottom: 15px;
+    }
+
+    /* Table Styling */
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1rem;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        background: #fff;
+    }
+
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        .styled-table thead tr {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background-color: #f2f8ff;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #e3f2fd;
+            transition: 0.3s;
+        }
+
+    /* Button Styling */
+    .btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+        font-weight: 500;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: 0.3s ease-in-out;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background: #007bff;
+        color: white;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            box-shadow: 0px 4px 10px rgba(0, 91, 187, 0.3);
+        }
+
+    .btn-info {
+        background: #17a2b8;
+        color: white;
+    }
+
+        .btn-info:hover {
+            background: #117a8b;
+        }
+
+    .btn-warning {
+        background: #ffc107;
+        color: white;
+    }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background: #bd2130;
+        }
+</style>

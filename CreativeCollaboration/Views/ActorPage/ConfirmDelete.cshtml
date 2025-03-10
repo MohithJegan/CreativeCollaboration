@@ -1,0 +1,91 @@
+﻿@model CreativeCollaboration.Models.ActorDto
+
+@{
+    ViewData["Title"] = "Confirm Delete";
+}
+
+<div class="container mt-4">
+    <!-- Card -->
+    <div class="card shadow-lg border-0 rounded-4"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <!-- Card Header -->
+        <div class="card-header text-center"
+             style="background: rgba(255, 0, 0, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+            <h3 class="mb-0 text-light">Confirm Deletion</h3>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+            <h5 class="text-center text-light">Are you sure you want to delete this actor?</h5>
+            <p class="text-center text-muted">This action cannot be undone.</p>
+
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="table table-borderless"
+                               style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                            <tbody>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Full Name</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorName)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Date of Birth</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorDOB)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Birthplace</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorBirthPlace)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Gender</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorGender)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Nationality</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorNationality)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Role</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorRole)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Awards Won</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorAwardWon)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Debut Year</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorDebutYear)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Net Worth ($)</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.ActorNetWorth)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Buttons -->
+                    <form asp-action="Delete" asp-route-id="@Model.ActorId" class="text-center mt-4">
+                        <input type="hidden" asp-for="ActorId" />
+                        <button type="submit" class="btn btn-danger px-4"
+                                style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                            Delete
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary px-4"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                            Cancel
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

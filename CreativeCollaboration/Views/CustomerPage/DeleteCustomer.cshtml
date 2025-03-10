@@ -1,0 +1,102 @@
+﻿@model CustomerDto
+
+<div class="delete-customer-container">
+    <div class="delete-customer-card">
+        <h2 class="text-center">Confirm Deletion</h2>
+
+        <p class="text-primary text-center"><strong>Name:</strong> @Model.Name</p>
+        <p class="text-center"><strong>Email:</strong> @Model.Email</p>
+        <p class="text-center"><strong>Phone:</strong> @Model.Phone</p>
+
+        @if (Model.LastOrderDate.HasValue)
+        {
+            <p class="text-warning text-center">
+                This customer has past orders. Deleting this customer will remove all their order history permanently.
+            </p>
+        }
+
+        <div class="button-group">
+            <form method="post" asp-action="DeleteCustomer" asp-route-id="@Model.CustomerId">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a asp-action="List" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Container and Card Styling */
+    .delete-customer-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f8f9fa;
+    }
+
+    .delete-customer-card {
+        width: 450px;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    /* Typography */
+    h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .text-primary {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    .text-warning {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #dc3545;
+    }
+
+    /* Buttons */
+    .button-group {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 12px 24px;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+</style>

@@ -1,0 +1,222 @@
+﻿@model CreativeCollaboration.Models.ViewModels.CustomerDetails
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<div class="customer-details-container">
+    <div class="customer-details-card">
+        <h2 class="text-center">Customer Details</h2>
+
+        @if (Model.Customer != null)
+        {
+            <div class="customer-info">
+                <h3>@Model.Customer.Name</h3>
+                <p><strong>Email:</strong> <a href="mailto:@Model.Customer.Email">@Model.Customer.Email</a></p>
+                <p><strong>Phone:</strong> <a href="tel:@Model.Customer.Phone">@Model.Customer.Phone</a></p>
+            </div>
+
+            <hr class="divider" />
+
+            @if (Model.Order != null && Model.Order.Any())
+            {
+                <h3 class="text-center">Order History</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Order Date</th>
+                            <th>Total Price</th>
+                            <th>Menu Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Order)
+                        {
+                            <tr>
+                                <td>@order.OrderId</td>
+                                <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                                <td>@order.LastOrderPrice.ToString("C")</td>
+                                <td>
+                                    <ul class="menu-list">
+                                        @foreach (var menu in order.LastOrderMenuNames)
+                                        {
+                                            <li>@menu</li>
+                                        }
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="no-orders">No orders found for this customer.</p>
+            }
+
+            <!-- Movies Section -->
+            <div class="mt-5">
+                <h4 class="fw-bold text-light">Movies</h4>
+                <div class="card border-0 shadow-sm p-3 rounded-4"
+                     style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var MovieDto in Model.CustomerMovies)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                                <a href="/MoviePage/Details/@MovieDto.MovieID" class="text-decoration-none fw-bold text-dark">@MovieDto.MovieTitle</a>
+                                <form method="POST" action="/CustomerPage/UnlinkFromMovie" class="d-inline">
+                                    <input type="hidden" name="customerId" value="@Model.Customer.CustomerId" />
+                                    <input type="hidden" name="movieId" value="@MovieDto.MovieID" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                            style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2);">
+                                        Remove
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- Add Movie Section -->
+                <div class="mt-3">
+                    <form method="POST" action="/CustomerPage/LinkToMovie" class="d-flex">
+                        <input type="hidden" name="customerId" value="@Model.Customer.CustomerId" />
+                        <select class="form-select mr-3" name="movieID"
+                                style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                            @foreach (var MovieDto in Model.AllMovies)
+                            {
+                                <option class="text-dark" value="@MovieDto.MovieID">@MovieDto.MovieTitle</option>
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-warning text-dark m-1"
+                                style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                            Add
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <p class="text-danger text-center">Customer not found.</p>
+        }
+
+        <div class="button-group">
+            <a asp-action="List" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Layout Styling */
+    .customer-details-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+    }
+
+    .customer-details-card {
+        width: 600px;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    /* Typography */
+    h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    .customer-info p {
+        font-size: 1rem;
+        margin: 5px 0;
+    }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    .no-orders {
+        font-size: 1.1rem;
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    /* Table Styling */
+    .table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table thead {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .menu-list {
+        padding-left: 0;
+        list-style: none;
+        font-size: 1rem;
+    }
+
+    .menu-list li {
+        padding: 4px;
+        background: #f1f1f1;
+        border-radius: 5px;
+        margin-bottom: 4px;
+        display: inline-block;
+    }
+
+    /* Buttons */
+    .button-group {
+        margin-top: 20px;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+    }
+
+    .divider {
+        margin: 20px 0;
+        border: 0;
+        height: 1px;
+        background: #ddd;
+    }
+</style>

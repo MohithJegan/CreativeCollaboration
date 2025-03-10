@@ -1,0 +1,89 @@
+﻿@model CreativeCollaboration.Models.MenuItemDto
+
+<div class="delete-menu-container">
+    <div class="delete-menu-card">
+        <h2 class="text-center">Confirm Deletion</h2>
+
+        <p class="text-primary text-center"><strong>Item Name:</strong> @Model.MName</p>
+        <p class="text-center"><strong>Description:</strong> @Model.Description</p>
+        <p class="text-center"><strong>Price:</strong> @Model.Price.ToString("C")</p>
+
+        <div class="button-group">
+            <form method="post" asp-action="DeleteMenuItem" asp-route-id="@Model.MenuItemId">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a asp-action="List" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Container and Card Styling */
+    .delete-menu-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f8f9fa;
+    }
+
+    .delete-menu-card {
+        width: 450px;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    /* Typography */
+    h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .text-primary {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    /* Buttons */
+    .button-group {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 12px 24px;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+</style>

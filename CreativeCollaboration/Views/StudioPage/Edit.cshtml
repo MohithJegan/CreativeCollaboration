@@ -1,0 +1,86 @@
+﻿@model CreativeCollaboration.Models.StudioDto
+
+@{
+    ViewData["Title"] = "Edit Studio";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary fw-bold text-light">Edit Studio</h2>
+
+    <!-- Card -->
+    <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <div class="card-body">
+            <form method="POST" action="/StudioPage/Update/@Model.StudioID" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="StudioID" />
+
+                <!-- Studio Name -->
+                <div class="mb-3">
+                    <label asp-for="StudioName" class="form-label fw-bold text-light"></label>
+                    <input asp-for="StudioName" class="form-control"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    <span asp-validation-for="StudioName" class="text-danger"></span>
+                </div>
+
+                <!-- Studio Country -->
+                <div class="mb-3">
+                    <label asp-for="StudioCountry" class="form-label fw-bold text-light"></label>
+                    <input asp-for="StudioCountry" class="form-control"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    <span asp-validation-for="StudioCountry" class="text-danger"></span>
+                </div>
+
+                <!-- Established Year -->
+                <div class="mb-3">
+                    <label asp-for="StudioEstablishedYear" class="form-label fw-bold text-light"></label>
+                    <input asp-for="StudioEstablishedYear" class="form-control"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    <span asp-validation-for="StudioEstablishedYear" class="text-danger"></span>
+                </div>
+
+                <!-- CEO -->
+                <div class="mb-3">
+                    <label asp-for="StudioCEO" class="form-label fw-bold text-light"></label>
+                    <input asp-for="StudioCEO" class="form-control"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    <span asp-validation-for="StudioCEO" class="text-danger"></span>
+                </div>
+
+                <!-- Headquarters -->
+                <div class="mb-3">
+                    <label asp-for="StudioHeadquarter" class="form-label fw-bold text-light"></label>
+                    <input asp-for="StudioHeadquarter" class="form-control"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    <span asp-validation-for="StudioHeadquarter" class="text-danger"></span>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="mb-3">
+                    <label for="StudioPic" class="form-label fw-bold text-light"></label>
+                    <input type="file" name="StudioPic" id="StudioPic" class="form-control"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary"
+                            style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                        Save Changes
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary ms-2"
+                       style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                        Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

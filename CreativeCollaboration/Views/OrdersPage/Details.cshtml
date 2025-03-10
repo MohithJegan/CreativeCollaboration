@@ -1,0 +1,179 @@
+﻿@model CreativeCollaboration.Models.ViewModels.OrderDetailsViewModel
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="order-details-container">
+    <div class="order-details-card">
+        <h2 class="text-center">Order Details</h2>
+
+        <div class="order-info">
+            <p><strong>Order ID:</strong> @Model.OrderId</p>
+            <p><strong>Order Date:</strong> @Model.OrderDate.ToString("yyyy-MM-dd")</p>
+            <p><strong>Customer Name:</strong> @Model.CustomerName</p>
+            <p><strong>Total Price:</strong> @Model.TotalOrderPrice.ToString("C")</p>
+        </div>
+
+        <hr class="divider" />
+
+        <h3 class="text-center">Order Items</h3>
+
+        @if (Model.OrderItems.Any())
+        {
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Order Item ID</th>
+                        <th>Menu Item</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.OrderItemId</td>
+                            <td>@item.MenuItemName</td>
+                            <td>@item.UnitPrice.ToString("C")</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.TotalPrice.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="no-items">No items found for this order.</p>
+        }
+
+        <div class="button-group">
+            <a asp-action="List" class="btn btn-secondary">Back to List</a>
+            <a asp-action="Edit" asp-route-id="@Model.OrderId" class="btn btn-warning">Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.OrderId" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Page Layout */
+    .order-details-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+    }
+
+    .order-details-card {
+        width: 600px;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    /* Typography */
+    h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #007bff;
+        margin-bottom: 15px;
+    }
+
+    .order-info p {
+        font-size: 1rem;
+        margin: 5px 0;
+        font-weight: 500;
+    }
+
+    .no-items {
+        font-size: 1.1rem;
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    /* Table Styling */
+    .styled-table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .styled-table th, .styled-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .styled-table thead {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+    /* Buttons */
+    .button-group {
+        margin-top: 20px;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border: none;
+        color: white;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #bd2130;
+            transform: translateY(-2px);
+        }
+
+    .divider {
+        margin: 20px 0;
+        border: 0;
+        height: 1px;
+        background: #ddd;
+    }
+</style>

@@ -1,0 +1,135 @@
+﻿@model CreativeCollaboration.Models.ActorDto
+
+@{
+    ViewData["Title"] = "New";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <!-- Card -->
+            <div class="border-0 rounded-4 shadow p-4"
+                 style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <h3 class="text-center fw-bold text-light">Add Actor</h3>
+                <hr class="mb-4" style="border-color: rgba(255, 255, 255, 0.2);">
+
+                <form asp-action="Add" class="row g-3">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
+
+                    <!-- Actor Name -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="ActorName" class="form-control" placeholder="Actor Name" required
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                            <label asp-for="ActorName" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorName" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="ActorDOB" type="date" class="form-control" placeholder="Date of Birth" required
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                            <label asp-for="ActorDOB" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorDOB" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Birth Place -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="ActorBirthPlace" class="form-control" placeholder="Birth Place" required
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                            <label asp-for="ActorBirthPlace" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorBirthPlace" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select asp-for="ActorGender" class="form-select" required
+                                    style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                <option value="" class="text-dark">Select Gender</option>
+                                <option value="Male" class="text-dark">Male</option>
+                                <option value="Female" class="text-dark">Female</option>
+                                <option value="Other" class="text-dark">Other</option>
+                            </select>
+                            <label asp-for="ActorGender" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorGender" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Nationality -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="ActorNationality" class="form-control" placeholder="Nationality" required
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                            <label asp-for="ActorNationality" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorNationality" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Role -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="ActorRole" class="form-control" placeholder="Role" required
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                            <label asp-for="ActorRole" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorRole" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Awards Won -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="ActorAwardWon" class="form-control" placeholder="Awards Won" required
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                            <label asp-for="ActorAwardWon" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorAwardWon" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Debut Year -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="ActorDebutYear" type="number" class="form-control" placeholder="Debut Year" required
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                            <label asp-for="ActorDebutYear" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorDebutYear" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Net Worth -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="ActorNetWorth" type="number" class="form-control" placeholder="Net Worth" required
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                            <label asp-for="ActorNetWorth" class="text-light"></label>
+                        </div>
+                        <span asp-validation-for="ActorNetWorth" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary btn-lg px-5"
+                                style="background: rgba(0, 255, 0, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(40, 167, 69, 0.2); color: white;">
+                            Create
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4 ms-2"
+                           style="background: rgba(108, 117, 125, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(108, 117, 125, 0.2); color: white;">
+                            Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

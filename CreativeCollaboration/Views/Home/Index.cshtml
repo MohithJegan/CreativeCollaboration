@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .glass-card:hover {
+        transform: scale(1.05);
+     }
+
+    body {
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: white;
+    }
+
+    .btn-outline-custom {
+        border-color: white;
+        color: white;
+    }
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: #0f0c29;
+        }
+</style>
+
+<div class="container text-center mt-5">
+    <h1 class="fw-bold display-4">Welcome to Movie Management System</h1>
+    <p class="lead">Effortlessly explore and manage movies, studios, and actors all in one place.</p>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <!-- Movies Section -->
+        <div class="col-md-4 mb-4">
+            <div class="glass-card text-center p-4 rounded shadow-lg h-100">
+                <h2 class="text-danger">Discover Movies</h2>
+                <p>Dive into a vast collection of movies from various genres, production houses, and eras. Find detailed insights, ratings, and actor profiles.</p>
+                <button class="btn btn-outline-custom rounded-pill px-4 py-2"><a class="nav-link text-danger" asp-area="" asp-controller="MoviePage" asp-action="List">View Movies</a></button>
+            </div>
+        </div>
+
+        <!-- Studios Section -->
+        <div class="col-md-4 mb-4">
+            <div class="glass-card text-center p-4 rounded shadow-lg h-100">
+                <h2 class="text-primary">Explore Studios</h2>
+                <p>Learn about top movie studios and the iconic films they have produced over the years. Explore cinema and its actors who brought films to life.</p>
+                <button class="btn btn-outline-custom rounded-pill px-4 py-2"><a class="nav-link text-primary" asp-area="" asp-controller="StudioPage" asp-action="List">View Studios</a></button>
+            </div>
+        </div>
+
+        <!-- Actors Section -->
+        <div class="col-md-4 mb-4">
+            <div class="glass-card text-center p-4 rounded shadow-lg h-100">
+                <h2 class="text-warning">Meet the Stars</h2>
+                <p>Discover the talented actors behind your favorite movies, their career highlights, and their journey in the film industry.</p>
+                <button class="btn btn-outline-custom rounded-pill px-4 py-2"><a class="nav-link text-warning" asp-area="" asp-controller="ActorPage" asp-action="List">View Actors</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center mt-5">
+    <h2 class="fw-bold display-5">Your Ultimate Movie Hub!</h2>
+    <p class="lead">Stay updated with the latest releases, classic hits, and behind-the-scenes insights.</p>
+</div>

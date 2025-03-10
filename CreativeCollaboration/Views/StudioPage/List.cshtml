@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CreativeCollaboration.Models.StudioDto>
+
+@{
+    ViewData["Title"] = "Studios";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-light">Studios</h2>
+        <a asp-action="New" class="btn btn-primary shadow-sm px-4 py-2"
+           style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+            Add Studio
+        </a>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-borderless shadow-lg rounded-3 overflow-hidden"
+               style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <thead>
+                <tr>
+                    <th class="p-3 text-center text-light">Studio Name</th>
+                    <th class="p-3 text-center text-light">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="align-middle"
+                        style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                        <td class="p-3 text-center fw-semibold text-light">@Html.DisplayFor(modelItem => item.StudioName)</td>
+                        <td class="p-3 text-center">
+                            <!-- Edit Button -->
+                            <a asp-action="Edit" asp-route-id="@item.StudioID"
+                               class="btn btn-outline-warning btn-sm me-2"
+                               style="background: rgba(255, 255, 0, 0.2);border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                Edit
+                            </a>
+
+                            <!-- Details Button -->
+                            <a asp-action="Details" asp-route-id="@item.StudioID"
+                               class="btn btn-outline-info btn-sm me-2"
+                               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                Details
+                            </a>
+
+                            <!-- Delete Button -->
+                            <a asp-action="ConfirmDelete" asp-route-id="@item.StudioID"
+                               class="btn btn-outline-danger btn-sm"
+                               style=" background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

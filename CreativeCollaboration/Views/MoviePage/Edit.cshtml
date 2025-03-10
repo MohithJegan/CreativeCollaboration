@@ -1,0 +1,92 @@
+﻿@model CreativeCollaboration.Models.ViewModels.MovieStudioDetails
+
+<div class="container mt-4">
+    <h2 class="text-primary fw-bold text-light">Edit Movie Details</h2>
+
+    <!-- Form -->
+    <form method="POST" action="/MoviePage/Update/@Model.Movie.MovieID"
+          style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px;">
+        <input type="hidden" name="MovieID" value="@Model.Movie.MovieID" />
+
+        <!-- Movie Title -->
+        <div class="mb-3">
+            <label for="MovieTitle" class="form-label fw-bold text-light">Movie Title:</label>
+            <input type="text" class="form-control" name="MovieTitle" id="MovieTitle" value="@Model.Movie.MovieTitle"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Release Date -->
+        <div class="mb-3">
+            <label for="MovieReleaseDate" class="form-label fw-bold text-light">Release Date:</label>
+            <input type="text" class="form-control" name="MovieReleaseDate" id="MovieReleaseDate" value="@Model.Movie.MovieReleaseDate"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Duration -->
+        <div class="mb-3">
+            <label for="MovieDuration" class="form-label fw-bold text-light">Duration:</label>
+            <input type="text" class="form-control" name="MovieDuration" id="MovieDuration" value="@Model.Movie.MovieDuration"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label for="MovieDescription" class="form-label fw-bold text-light">Description:</label>
+            <input type="text" class="form-control" name="MovieDescription" id="MovieDescription" value="@Model.Movie.MovieDescription"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Budget -->
+        <div class="mb-3">
+            <label for="MovieBudget" class="form-label fw-bold text-light">Budget:</label>
+            <input type="text" class="form-control" name="MovieBudget" id="MovieBudget" value="@Model.Movie.MovieBudget"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Box Office Collection -->
+        <div class="mb-3">
+            <label for="MovieBoxOfficeCollection" class="form-label fw-bold text-light">Box Office Collection:</label>
+            <input type="text" class="form-control" name="MovieBoxOfficeCollection" id="MovieBoxOfficeCollection" value="@Model.Movie.MovieBoxOfficeCollection"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Rating -->
+        <div class="mb-3">
+            <label for="MovieRating" class="form-label fw-bold text-light">Rating:</label>
+            <input type="text" class="form-control" name="MovieRating" id="MovieRating" value="@Model.Movie.MovieRating"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Award Nomination -->
+        <div class="mb-3">
+            <label for="MovieAwardNomination" class="form-label fw-bold text-light">Award Nomination:</label>
+            <input type="text" class="form-control" name="MovieAwardNomination" id="MovieAwardNomination" value="@Model.Movie.MovieAwardNomination"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Award Win -->
+        <div class="mb-3">
+            <label for="MovieAwardWin" class="form-label fw-bold text-light">Award Win:</label>
+            <input type="text" class="form-control" name="MovieAwardWin" id="MovieAwardWin" value="@Model.Movie.MovieAwardWin"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        </div>
+
+        <!-- Studio Dropdown -->
+        <div class="mb-3">
+            <label for="StudioID" class="form-label fw-bold text-light">Studio:</label>
+            <select name="StudioID" id="StudioID" class="form-select"
+                    style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                @foreach (var StudioDto in Model.Studios)
+                {
+                    <option class="text-dark" value="@StudioDto.StudioID">@StudioDto.StudioName - @StudioDto.StudioCountry</option>
+                }
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-between">
+            <input type="submit" value="Edit Movie" class="btn btn-success fw-bold"
+                   style="background: rgba(40, 167, 69, 0.8); border: 1px solid rgba(40, 167, 69, 0.8); color: white;" />
+        </div>
+    </form>
+</div>

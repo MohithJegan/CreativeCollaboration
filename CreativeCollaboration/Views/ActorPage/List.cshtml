@@ -1,0 +1,29 @@
+﻿@model IEnumerable<ActorDto>
+
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-light">Actor Directory</h2>
+        <a href="/ActorPage/New" class="btn btn-primary btn-lg shadow-lg rounded-pill px-4"
+           style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+            Add Actor
+        </a>
+    </div>
+
+    <!-- Actor List -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var Actor in Model)
+        {
+            <div class="col">
+                <!-- Card -->
+                <div class="card border-0 shadow-lg rounded-4 h-100 position-relative"
+                     style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <div class="card-body text-center py-4">
+                        <h5 class="card-title fw-bold text-light">@Actor.ActorName</h5>
+                        <a href="/ActorPage/Details/@Actor.ActorId" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,94 @@
+﻿@model IEnumerable<StudioDto>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-uppercase fw-bold text-light">Add New Movie</h2>
+    <a asp-action="Index" class="btn btn-outline-light px-4 py-2">
+        Back to List
+    </a>
+</div>
+
+<!-- Form -->
+<form method="POST" action="/MoviePage/Add"
+      style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px;">
+    <!-- Movie Title -->
+    <div class="form-group mb-3">
+        <label for="MovieTitle" class="form-label fw-semibold text-light">Name:</label>
+        <input type="text" class="form-control" name="MovieTitle" id="MovieTitle"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Release Date -->
+    <div class="form-group mb-3">
+        <label for="MovieReleaseDate" class="form-label fw-semibold text-light">Release Date:</label>
+        <input type="text" class="form-control" name="MovieReleaseDate" id="MovieReleaseDate"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Duration -->
+    <div class="form-group mb-3">
+        <label for="MovieDuration" class="form-label fw-semibold text-light">Duration:</label>
+        <input type="text" class="form-control" name="MovieDuration" id="MovieDuration"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Description -->
+    <div class="form-group mb-3">
+        <label for="MovieDescription" class="form-label fw-semibold text-light">Description:</label>
+        <input type="text" class="form-control" name="MovieDescription" id="MovieDescription"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Budget -->
+    <div class="form-group mb-3">
+        <label for="MovieBudget" class="form-label fw-semibold text-light">Budget:</label>
+        <input type="text" class="form-control" name="MovieBudget" id="MovieBudget"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Box Office Collection -->
+    <div class="form-group mb-3">
+        <label for="MovieBoxOfficeCollection" class="form-label fw-semibold text-light">Box Office Collection:</label>
+        <input type="text" class="form-control" name="MovieBoxOfficeCollection" id="MovieBoxOfficeCollection"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Rating -->
+    <div class="form-group mb-3">
+        <label for="MovieRating" class="form-label fw-semibold text-light">Rating:</label>
+        <input type="text" class="form-control" name="MovieRating" id="MovieRating"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Award Nomination -->
+    <div class="form-group mb-3">
+        <label for="MovieAwardNomination" class="form-label fw-semibold text-light">Award Nomination:</label>
+        <input type="text" class="form-control" name="MovieAwardNomination" id="MovieAwardNomination"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Award Win -->
+    <div class="form-group mb-3">
+        <label for="MovieAwardWin" class="form-label fw-semibold text-light">Award Win:</label>
+        <input type="text" class="form-control" name="MovieAwardWin" id="MovieAwardWin"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+    </div>
+
+    <!-- Studio Dropdown -->
+    <div class="form-group mb-3">
+        <label for="StudioID" class="form-label fw-semibold text-light">Studios:</label>
+        <select class="form-select" name="StudioID"
+                style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+            <option class="text-dark" selected disabled>Please select Studio</option>
+            @foreach (var StudioDto in Model)
+            {
+                <option class="text-dark" value="@StudioDto.StudioID">@StudioDto.StudioName - @StudioDto.StudioCountry</option>
+            }
+        </select>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-group mt-3">
+        <input type="submit" class="btn btn-success" value="Add Movie"
+               style="background: rgba(40, 167, 69, 0.8); border: 1px solid rgba(40, 167, 69, 0.8); color: white;" />
+    </div>
+</form>

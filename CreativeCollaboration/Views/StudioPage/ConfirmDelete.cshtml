@@ -1,0 +1,72 @@
+﻿@model CreativeCollaboration.Models.StudioDto
+
+@{
+    ViewData["Title"] = "Confirm Delete";
+}
+
+<div class="container mt-4">
+    <!-- Card -->
+    <div class="card shadow-lg border-0 rounded-4"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <!-- Card Header -->
+        <div class="card-header text-center"
+             style="background: rgba(255, 0, 0, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+            <h4 class="mb-0 text-light">Confirm Deletion?</h4>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+            <h5 class="text-center text-light">Are you sure you want to delete this studio?</h5>
+            <p class="text-center text-muted">This action cannot be undone.</p>
+            <p class="text-center text-light">@Model.StudioName</p>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table table-borderless"
+                       style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <tbody>
+                        <tr>
+                            <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Name</th>
+                            <td class="text-light">@Html.DisplayFor(model => model.StudioName)</td>
+                        </tr>
+                        <tr>
+                            <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Country</th>
+                            <td class="text-light">@Html.DisplayFor(model => model.StudioCountry)</td>
+                        </tr>
+                        <tr>
+                            <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Established Year</th>
+                            <td class="text-light">@Html.DisplayFor(model => model.StudioEstablishedYear)</td>
+                        </tr>
+                        <tr>
+                            <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">CEO</th>
+                            <td class="text-light">@Html.DisplayFor(model => model.StudioCEO)</td>
+                        </tr>
+                        <tr>
+                            <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Headquarters</th>
+                            <td class="text-light">@Html.DisplayFor(model => model.StudioHeadquarter)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Buttons -->
+            <form asp-action="Delete" asp-route-id="@Model.StudioID" class="text-center mt-4">
+                <input type="hidden" asp-for="StudioID" />
+                <button type="submit" class="btn btn-danger px-4"
+                        style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                    Delete
+                </button>
+                <a href="/StudioPage/Index" class="btn btn-secondary px-4"
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

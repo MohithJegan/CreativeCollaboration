@@ -1,0 +1,78 @@
+﻿@model CreativeCollaboration.Models.ViewModels.StudioDetails
+
+@{
+    ViewData["Title"] = "Studio Details";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary fw-bold text-light">Studio Details</h2>
+
+    <!-- Card for Basic Information -->
+    <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <div class="card-body">
+            <h5 class="fw-bold text-light">Basic Information</h5>
+            <hr style="border-color: rgba(255, 255, 255, 0.2);">
+
+            <!-- Studio Details -->
+            <p class="text-light"><strong>Studio Name:</strong> @Model.Studio.StudioName</p>
+            <p class="text-light"><strong>CEO:</strong> @Model.Studio.StudioCEO</p>
+            <p class="text-light"><strong>Established Year:</strong> @Model.Studio.StudioEstablishedYear</p>
+            <p class="text-light"><strong>Country:</strong> @Model.Studio.StudioCountry</p>
+            <p class="text-light"><strong>Headquarters:</strong> @Model.Studio.StudioHeadquarter</p>
+
+            <!-- Studio Image -->
+            @if (Model.Studio.HasStudioPic)
+            {
+                <strong>Studio Image:</strong>
+                <div class="mt-4 text-center">
+                    <div class="rounded-4 overflow-hidden"
+                         style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px;">
+                        <img src="@Model.Studio.StudioImagePath"
+                             class="img-fluid rounded-3"
+                             style="max-height: 300px; width: auto; object-fit: cover;"
+                             alt="Studio Image" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Card for Movies Produced -->
+    <div class="card border-0 shadow-lg rounded-4 p-4 mt-4"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <div class="card-body">
+            <h5 class="fw-bold text-light">Movies Produced</h5>
+            <hr style="border-color: rgba(255, 255, 255, 0.2);">
+
+            @if (Model.Movies.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var MovieDto in Model.Movies)
+                    {
+                        <li class="list-group-item"
+                            style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                            <strong>@MovieDto.MovieTitle</strong>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted">No movies produced yet.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-4">
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Studio.StudioID"
+           style="background: rgba(255, 255, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+            Edit
+        </a>
+        <a class="btn btn-secondary ms-2" asp-action="Index"
+           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+            Back to List
+        </a>
+    </div>
+</div>
