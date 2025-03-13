@@ -14,7 +14,7 @@ The application contains the following main controllers:
 - **MenuItem** (for Restaurant Management)
 
 ## Controllers and Views
-The application contains three main controllers: **Actor**, **Movie**, and **Studio**. Each controller manages its respective entity and provides views for displaying data.
+The application contains six main controllers: **Actor**, **Movie**, **Studio**, **Customer**, **Order**, and **MenuItem**. Each controller manages its respective entity and provides views for displaying data.
 
 ### **Actor Controller**
 The ActorPage contains the following views:
@@ -43,20 +43,52 @@ The StudioPage contains the following views:
 - **StudioPage/ConfirmDelete.cshtml**: Displays a delete confirmation page where the user can either confirm the deletion of a studio or cancel to go back without performing the delete operation.
 - **StudioPage/Edit.cshtml**: Displays a form to update a studio in the database.
 
+### **Customer Controller**
+- **CustomerPage/List.cshtml**: Displays a list of all customers.
+- **CustomerPage/Details.cshtml**: Displays detailed information about a specific customer.
+- **CustomerPage/New.cshtml**: Displays a form to add a new customer.
+- **CustomerPage/ConfirmDelete.cshtml**: Displays a delete confirmation page where the user can either confirm the deletion of a customer or cancel to go back without performing the delete operation.
+- **CustomerPage/Edit.cshtml**: Displays a form to update a customer's information in the database.
+
+### **Order Controller**
+
+- **OrderPage/List.cshtml**: Displays a list of all orders.
+- **OrderPage/Details.cshtml**: Displays detailed information about a specific order, including customer details and ordered items.
+- **OrderPage/New.cshtml**: Displays a form to create a new order by selecting a customer and adding items.
+- **OrderPage/ConfirmDelete.cshtml**: Displays a delete confirmation page where the user can either confirm the deletion of an order or cancel to go back without performing the delete operation.
+- **OrderPage/Edit.cshtml**: Displays a form to update order details, such as modifying items or customer information.
+
+### **MenuItem Controller**
+- **MenuItemPage/List.cshtml**: Displays a list of all menu items available in the restaurant.
+- **MenuItemPage/Details.cshtml**: Displays detailed information about a specific menu item, including its name, description, price, and category.
+- **MenuItemPage/New.cshtml**: Displays a form to add a new menu item to the system.
+- **MenuItemPage/ConfirmDelete.cshtml**: Displays a delete confirmation page where the user can either confirm the deletion of a menu item or cancel to go back without performing the delete operation.
+- **MenuItemPage/Edit.cshtml**: Displays a form to update an existing menu item, including modifying its price, name, or description.
+
+
 ## Entity Models
 - **Actor.cs**: Represents actors and their attributes.
 - **Movie.cs**: Represents movies and their attributes.
 - **Studio.cs**: Represents studios and their attributes.
+- **Order.cs**: Represents customer orders, including order details such as date, total price, and associated customer.
+- **MenuItem.cs**: Represents menu items available in the restaurant, including name, price, category, and description.
+- **Customer.cs**: Represents customers and their details, including name, contact information, and order history.
 
 ## Interfaces
 - **IActorService.cs**: Defines logic for actors.
 - **IMovieService.cs**: Defines logic for movies.
 - **IStudioService.cs**: Defines logic for studios.
+- **IOrderService.cs**: Defines logic for handling orders, including creation, updating, and retrieval.
+- **IMenuItemService.cs**: Defines logic for managing menu items, such as adding, updating, and retrieving items.
+- **ICustomerService.cs**: Defines logic for handling customers, including registration, updates, and retrieving customer details.
 
 ## Services
 - **ActorService.cs**: Implements logic for actors, including linking/unlinking movies.
 - **MovieService.cs**: Implements logic for movies, including linking/unlinking actors.
 - **StudioService.cs**: Implements logic for studios.
+- **OrderService.cs**: Implements logic for orders, including processing new orders and updating order statuses.
+- **MenuItemService.cs**: Implements logic for menu items, such as managing availability, pricing, and descriptions.
+- **CustomerService.cs**: Implements logic for managing customers, including creating, updating, and retrieving customer information.
 
 ## API Endpoints
 
@@ -90,3 +122,25 @@ The StudioPage contains the following views:
 - `GET /api/Studios/ListStudioForMovie/{id}` - Retrieves the studio associated with a specific movie.
 
 
+### **Customer API**
+- `GET /api/Customers/List` - Retrieves a list of all customers.
+- `GET /api/Customers/Find/{id}` - Retrieves a specific customer by ID.
+- `PUT /api/Customers/Update/{id}` - Updates an existing customer's details.
+- `POST /api/Customers/Add` - Adds a new customer.
+- `DELETE /api/Customers/Delete/{id}` - Deletes a customer by ID.
+- `GET /api/Customers/Orders/{id}` - Retrieves all orders placed by a specific customer.
+
+### **Order API**
+- `GET /api/Orders/List` - Retrieves a list of all orders.
+- `GET /api/Orders/Find/{id}` - Retrieves a specific order by ID.
+- `PUT /api/Orders/Update/{id}` - Updates an existing order's details.
+- `POST /api/Orders/Add` - Adds a new order.
+- `DELETE /api/Orders/Delete/{id}` - Deletes an order by ID.
+- `GET /api/Orders/Items/{id}` - Retrieves all menu items associated with a specific order.
+
+### **MenuItem API**
+- `GET /api/MenuItems/List` - Retrieves a list of all menu items.
+- `GET /api/MenuItems/Find/{id}` - Retrieves a specific menu item by ID.
+- `PUT /api/MenuItems/Update/{id}` - Updates an existing menu item.
+- `POST /api/MenuItems/Add` - Adds a new menu item.
+- `DELETE /api/MenuItems/Delete/{id}` - Deletes a menu item by ID.
