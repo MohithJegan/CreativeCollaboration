@@ -1,4 +1,4 @@
-# CreativeCollaboration
+# Movie and Restaurant Management
 
 ## Project Overview
 The Creative Collaboration Project is an innovative web application that merges two distinct domains—Movie Management System and Restaurant Management System—to demonstrate entity relationships using ASP.NET Core Web API.  
