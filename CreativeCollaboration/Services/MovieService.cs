@@ -44,6 +44,7 @@ namespace CreativeCollaboration.Services
                     MovieRating = Movie.MovieRating,
                     MovieAwardNomination = Movie.MovieAwardNomination,
                     MovieAwardWin = Movie.MovieAwardWin,
+                    MovieCost = Movie.MovieCost,
                     StudioID = Movie.StudioID,
                     MovieStudioName = Movie.Studio.StudioName
                 });
@@ -78,6 +79,7 @@ namespace CreativeCollaboration.Services
                 MovieRating = Movie.MovieRating,
                 MovieAwardNomination = Movie.MovieAwardNomination,
                 MovieAwardWin = Movie.MovieAwardWin,
+                MovieCost = Movie.MovieCost,
                 MovieStudioName = Movie.Studio.StudioName
             };
 
@@ -101,6 +103,7 @@ namespace CreativeCollaboration.Services
                 MovieRating = movieDto.MovieRating,
                 MovieAwardNomination = movieDto.MovieAwardNomination,
                 MovieAwardWin = movieDto.MovieAwardWin,
+                MovieCost = movieDto.MovieCost,
                 StudioID = movieDto.StudioID
             };
 
@@ -141,6 +144,7 @@ namespace CreativeCollaboration.Services
                 MovieRating = movieDto.MovieRating,
                 MovieAwardNomination = movieDto.MovieAwardNomination,
                 MovieAwardWin = movieDto.MovieAwardWin,
+                MovieCost = movieDto.MovieCost,
                 StudioID = movieDto.StudioID
             };
             
@@ -226,6 +230,7 @@ namespace CreativeCollaboration.Services
                     MovieRating = Movie.MovieRating,
                     MovieAwardNomination = Movie.MovieAwardNomination,
                     MovieAwardWin = Movie.MovieAwardWin,
+                    MovieCost = Movie.MovieCost,
                     StudioID = Movie.StudioID,
                     MovieStudioName = Movie.Studio.StudioName
                 });
@@ -263,6 +268,7 @@ namespace CreativeCollaboration.Services
                     MovieRating = Movie.MovieRating,
                     MovieAwardNomination = Movie.MovieAwardNomination,
                     MovieAwardWin = Movie.MovieAwardWin,
+                    MovieCost = Movie.MovieCost,
                     StudioID = Movie.StudioID,
                     MovieStudioName = Movie.Studio.StudioName
                 });
@@ -301,6 +307,7 @@ namespace CreativeCollaboration.Services
                     MovieRating = Movie.MovieRating,
                     MovieAwardNomination = Movie.MovieAwardNomination,
                     MovieAwardWin = Movie.MovieAwardWin,
+                    MovieCost = Movie.MovieCost,
                     StudioID = Movie.StudioID,
                     MovieStudioName = Movie.Studio.StudioName
                 });
