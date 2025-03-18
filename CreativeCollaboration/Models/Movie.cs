@@ -17,6 +17,8 @@ namespace CreativeCollaboration.Models
         public int MovieAwardNomination { get; set; }
         public int MovieAwardWin { get; set; }
 
+        public Double MovieCost { get; set; }
+
         // A movie can be produced by one studio
         [ForeignKey("Studio")]
         public int StudioID { get; set; }
@@ -45,6 +47,7 @@ namespace CreativeCollaboration.Models
         public int MovieAwardNomination { get; set; }
         public int MovieAwardWin { get; set; }
         public string MovieStudioName { get; set; }
+        public Double MovieCost { get; set; }
         public int StudioID { get; set; }
         
 

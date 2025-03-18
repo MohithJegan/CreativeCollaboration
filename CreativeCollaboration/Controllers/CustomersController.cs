@@ -40,6 +40,7 @@ namespace CreativeCollaboration.Controllers
         /// GET: api/Customers/List -> [{CustomerId: 1, Name: "Himani", LastOrderDate: "2025-01-01", LastOrderPrice:30},{....},{....}]
         /// </example>
         [HttpGet(template: "List")]
+       
         public async Task<ActionResult<IEnumerable<CustomerDto>>> ListCustomers()
         {
             List<Customer> Customers = await _context.Customers
@@ -59,7 +60,9 @@ namespace CreativeCollaboration.Controllers
                 {
                     CustomerId = customer.CustomerId,
                     Name = customer.Name,
-                    LastOrderDate = lastOrder.OrderDate,
+                    Email = customer.Email,
+                    Phone = customer.Phone,
+                    LastOrderDate = lastOrder?.OrderDate ?? (new DateOnly(DateOnly.FromDateTime(DateTime.Now).Year, DateOnly.FromDateTime(DateTime.Now).Month, DateOnly.FromDateTime(DateTime.Now).Day)),
                     LastOrderPrice = lastOrder?.OrderItems?.Sum(oi => oi.TotalPrice) ?? 0
                 });
             }
@@ -269,7 +272,7 @@ namespace CreativeCollaboration.Controllers
         /// <summary>
         /// Links a movie from an actor
         /// </summary>
-        /// <param name="actorId">The id of the actor</param>
+        /// <param name="customerId">The id of the customer</param>
         /// <param name="movieId">The id of the movie</param>
         /// <returns>
         /// 204 No Content

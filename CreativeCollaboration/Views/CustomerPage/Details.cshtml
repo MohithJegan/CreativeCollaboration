@@ -4,158 +4,171 @@
     ViewData["Title"] = "Customer Details";
 }
 
-<div class="customer-details-container">
-    <div class="customer-details-card">
-        <h2 class="text-center">Customer Details</h2>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="text-primary fw-bold">Customer Details</h2>
+        <a href="/ListCustomers" class="btn btn-outline-secondary fw-bold" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">Back</a>
+    </div>
 
-        @if (Model.Customer != null)
-        {
-            <div class="customer-info">
-                <h3>@Model.Customer.Name</h3>
-                <p><strong>Email:</strong> <a href="mailto:@Model.Customer.Email">@Model.Customer.Email</a></p>
-                <p><strong>Phone:</strong> <a href="tel:@Model.Customer.Phone">@Model.Customer.Phone</a></p>
+    @if (Model.Customer != null)
+    {
+        <!-- Customer Info Card -->
+        <div class="card border-0 shadow-lg rounded-4 p-4 mt-4"
+             style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="card-body">
+                <h3 class="text-primary fw-bold mb-4">@Model.Customer.Name</h3>
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
+                <div class="customer-info">
+                    <p class="mb-2">
+                        <strong>Email:</strong>
+                        <a href="mailto:@Model.Customer.Email" class="text-light text-decoration-none hover-effect">@Model.Customer.Email</a>
+                    </p>
+                    <p>
+                        <strong>Phone:</strong>
+                        <a href="tel:@Model.Customer.Phone" class="text-light text-decoration-none hover-effect">@Model.Customer.Phone</a>
+                    </p>
+                </div>
             </div>
+        </div>
 
-            <hr class="divider" />
-
-            @if (Model.Order != null && Model.Order.Any())
-            {
-                <h3 class="text-center">Order History</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Order Date</th>
-                            <th>Total Price</th>
-                            <th>Menu Items</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var order in Model.Order)
-                        {
+        <!-- Order History Section -->
+        <div class="card border-0 shadow-lg rounded-4 p-4 mt-4"
+             style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="card-body">
+                <h3 class="text-primary fw-bold mb-4">Order History</h3>
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
+                @if (Model.Order != null && Model.Order.Any())
+                {
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>@order.OrderId</td>
-                                <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
-                                <td>@order.LastOrderPrice.ToString("C")</td>
-                                <td>
-                                    <ul class="menu-list">
-                                        @foreach (var menu in order.LastOrderMenuNames)
-                                        {
-                                            <li>@menu</li>
-                                        }
-                                    </ul>
-                                </td>
+                                <th class="text-light">Order ID</th>
+                                <th class="text-light">Order Date</th>
+                                <th class="text-light">Total Price</th>
+                                <th class="text-light">Menu Items</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <p class="no-orders">No orders found for this customer.</p>
-            }
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model.Order)
+                            {
+                                <tr>
+                                    <td class="text-light">@order.OrderId</td>
+                                    <td class="text-light">@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                                    <td class="text-light">@order.LastOrderPrice.ToString("C")</td>
+                                    <td>
+                                        <ul class="menu-list">
+                                            @foreach (var menu in order.LastOrderMenuNames)
+                                            {
+                                                <li class="text-light">@menu</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-light">No orders found for this customer.</p>
+                }
+            </div>
+        </div>
 
-            <!-- Movies Section -->
-            <div class="mt-5">
-                <h4 class="fw-bold text-light">Movies</h4>
-                <div class="card border-0 shadow-sm p-3 rounded-4"
-                     style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var MovieDto in Model.CustomerMovies)
-                        {
-                            <li class="list-group-item d-flex justify-content-between align-items-center"
-                                style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
-                                <a href="/MoviePage/Details/@MovieDto.MovieID" class="text-decoration-none fw-bold text-dark">@MovieDto.MovieTitle</a>
-                                <form method="POST" action="/CustomerPage/UnlinkFromMovie" class="d-inline">
-                                    <input type="hidden" name="customerId" value="@Model.Customer.CustomerId" />
-                                    <input type="hidden" name="movieId" value="@MovieDto.MovieID" />
-                                    <button type="submit" class="btn btn-outline-danger btn-sm"
-                                            style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2);">
-                                        Remove
-                                    </button>
-                                </form>
-                            </li>
-                        }
-                    </ul>
+
+
+
+        <!-- Movies Section -->
+        <div class="card border-0 shadow-lg rounded-4 p-4 mt-4"
+             style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="card-body">
+                <h4 class="text-primary fw-bold mb-4">Movies</h4>
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
+
+                <!-- Movie List -->
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    @foreach (var MovieDto in Model.CustomerMovies)
+                    {
+                        <div class="col">
+                            <div class="movie-card h-100 p-4 rounded-4"
+                                 style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <a href="/MoviePage/Details/@MovieDto.MovieID" class="text-decoration-none fw-bold text-light hover-effect">@MovieDto.MovieTitle</a>
+                                    <form method="POST" action="/CustomerPage/UnlinkFromMovie" class="d-inline">
+                                        <input type="hidden" name="customerId" value="@Model.Customer.CustomerId" />
+                                        <input type="hidden" name="movieId" value="@MovieDto.MovieID" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2);">
+                                            <i class="fas fa-trash"></i> Remove
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="movie-meta text-light mb-3">
+                                    <!-- Duration Badge -->
+                                    <div class="badge me-2 p-2 rounded-3"
+                                         style="background: rgba(13, 110, 253, 0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                                        <i class="fas fa-clock me-1"></i>Duration: @MovieDto.MovieDuration min
+                                    </div>
+                                    <!-- Rating Badge -->
+                                    <div class="badge me-2 p-2 rounded-3"
+                                         style="background: rgba(25, 135, 84, 0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                                        <i class="fas fa-star me-1"></i>Rating: @MovieDto.MovieRating
+                                    </div>
+                                    <!-- Cost Badge -->
+                                    <div class="badge p-2 rounded-3"
+                                         style="background: rgba(255, 193, 7, 0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                                        <i class="fas fa-dollar-sign me-1"></i>Cost: $@MovieDto.MovieCost
+                                    </div>
+                                </div>
+                                <p class="text-light mb-3" style="opacity: 0.8;">@MovieDto.MovieDescription</p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="/MoviePage/Details/@MovieDto.MovieID" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-info-circle me-1"></i> Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
 
-                <!-- Add Movie Section -->
-                <div class="mt-3">
-                    <form method="POST" action="/CustomerPage/LinkToMovie" class="d-flex">
-                        <input type="hidden" name="customerId" value="@Model.Customer.CustomerId" />
-                        <select class="form-select mr-3" name="movieID"
-                                style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <!-- Add Movie Form -->
+                <form method="POST" action="/CustomerPage/LinkToMovie" class="mt-4">
+                    <input type="hidden" name="customerId" value="@Model.Customer.CustomerId" />
+                    <div class="input-group">
+                        <select name="movieID" class="form-select"
+                                style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
                             @foreach (var MovieDto in Model.AllMovies)
                             {
                                 <option class="text-dark" value="@MovieDto.MovieID">@MovieDto.MovieTitle</option>
                             }
                         </select>
-                        <button type="submit" class="btn btn-warning text-dark m-1"
-                                style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
-                            Add
+                        <button type="submit" class="btn btn-outline-primary fw-bold">
+                            <i class="fas fa-plus"></i> Add
                         </button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-
-        }
-        else
-        {
-            <p class="text-danger text-center">Customer not found.</p>
-        }
-
-        <div class="button-group">
-            <a asp-action="List" class="btn btn-secondary">Back to List</a>
         </div>
-    </div>
+
+
+
+    }
+    else
+    {
+        <div class="card border-0 shadow-lg rounded-4 p-4 mt-4"
+             style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="card-body">
+                <p class="text-danger text-center">Customer not found.</p>
+            </div>
+        </div>
+    }
 </div>
 
 <style>
-    /* Layout Styling */
-    .customer-details-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #f8f9fa;
-    }
-
-    .customer-details-card {
-        width: 600px;
-        padding: 30px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    /* Typography */
-    h2 {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #007bff;
-    }
-
-    .customer-info p {
-        font-size: 1rem;
-        margin: 5px 0;
-    }
-
-    .text-danger {
-        color: #dc3545;
-    }
-
-    .no-orders {
-        font-size: 1.1rem;
-        color: #6c757d;
-        font-style: italic;
+    /* Hover Effects */
+    .hover-effect:hover {
+        color: #007bff !important;
+        transition: color 0.3s ease;
     }
 
     /* Table Styling */
@@ -165,16 +178,16 @@
         border-collapse: collapse;
     }
 
-    .table th, .table td {
-        padding: 12px;
-        text-align: center;
-        border-bottom: 1px solid #ddd;
-    }
+        .table th, .table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-    .table thead {
-        background-color: #007bff;
-        color: white;
-    }
+        .table thead {
+            background-color: rgba(0, 123, 255, 0.1);
+            color: white;
+        }
 
     .menu-list {
         padding-left: 0;
@@ -182,41 +195,22 @@
         font-size: 1rem;
     }
 
-    .menu-list li {
-        padding: 4px;
-        background: #f1f1f1;
-        border-radius: 5px;
-        margin-bottom: 4px;
-        display: inline-block;
-    }
+        .menu-list li {
+            padding: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
 
     /* Buttons */
-    .button-group {
-        margin-top: 20px;
+    .btn-outline-primary:hover {
+        background-color: rgba(0, 123, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
     }
 
-    .btn {
-        font-size: 1rem;
-        padding: 10px 20px;
-        border-radius: 8px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-        color: white;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
-        transform: translateY(-2px);
-    }
-
-    .divider {
-        margin: 20px 0;
-        border: 0;
-        height: 1px;
-        background: #ddd;
+    .btn-outline-danger:hover {
+        background-color: rgba(255, 0, 0, 0.2) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
     }
 </style>
