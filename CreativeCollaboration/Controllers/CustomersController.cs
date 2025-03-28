@@ -11,6 +11,8 @@ using CreativeCollaboration.Models;
 using CreativeCollaboration.Interfaces;
 using CreativeCollaboration.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace CreativeCollaboration.Controllers
 {
@@ -40,7 +42,7 @@ namespace CreativeCollaboration.Controllers
         /// GET: api/Customers/List -> [{CustomerId: 1, Name: "Himani", LastOrderDate: "2025-01-01", LastOrderPrice:30},{....},{....}]
         /// </example>
         [HttpGet(template: "List")]
-       
+        [Authorize(Roles="admin")]
         public async Task<ActionResult<IEnumerable<CustomerDto>>> ListCustomers()
         {
             List<Customer> Customers = await _context.Customers
@@ -62,6 +64,7 @@ namespace CreativeCollaboration.Controllers
                     Name = customer.Name,
                     Email = customer.Email,
                     Phone = customer.Phone,
+                    CustomerAccountId = customer.CustomerAccountId,
                     LastOrderDate = lastOrder?.OrderDate ?? (new DateOnly(DateOnly.FromDateTime(DateTime.Now).Year, DateOnly.FromDateTime(DateTime.Now).Month, DateOnly.FromDateTime(DateTime.Now).Day)),
                     LastOrderPrice = lastOrder?.OrderItems?.Sum(oi => oi.TotalPrice) ?? 0
                 });
@@ -85,6 +88,7 @@ namespace CreativeCollaboration.Controllers
         /// <example>
         /// GET: api/Customers/Find/1 -> {CustomerId: 1, Name: "Himani", LastOrderDate: "2025-01-01", LastOrderPrice:30}
         [HttpGet(template: "Find/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<CustomerDto>> FindCustomer(int id)
         {
             var customer = await _context.Customers
@@ -104,7 +108,10 @@ namespace CreativeCollaboration.Controllers
             CustomerDto customerDto = new CustomerDto()
             {
                 CustomerId = customer.CustomerId,
+                CustomerAccountId = customer.CustomerAccountId,
                 Name = customer.Name,
+                Email = customer.Email,
+                Phone = customer.Phone,
                 LastOrderDate = lastOrder.OrderDate,
                 LastOrderPrice = lastOrder?.OrderItems?.Sum(oi => oi.TotalPrice) ?? 0
             };
@@ -126,6 +133,7 @@ namespace CreativeCollaboration.Controllers
         /// 204 No Content
         /// </returns>       
         [HttpPut(template: "Update/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateCustomer(int id, AUCustomerDto updateCustomerDto)
         {
             if (id != updateCustomerDto.CustomerId)
@@ -181,6 +189,7 @@ namespace CreativeCollaboration.Controllers
         /// api/Customers/Add -> Adds a new Customer 
         /// </example>
         [HttpPost(template: "Add")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Customer>> AddCustomer(AUCustomerDto addCustomerDto)
         {
             if (!ModelState.IsValid)
@@ -222,6 +231,7 @@ namespace CreativeCollaboration.Controllers
         /// api/Customer/Delete/{id} -> Deletes the Customer associated with {id}
         /// </example>
         [HttpDelete(template: "Delete/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             var customer = await _context.Customers.FindAsync(id);
@@ -257,6 +267,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpGet(template: "ListCustomersForMovie/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ListCustomersForMovie(int id)
         {
             // empty list of data transfer object MovieDto
@@ -286,7 +297,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpPost("Link")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Link(int customerId, int movieId)
         {
             ServiceResponse response = await _customerService.LinkCustomerToMovie(customerId, movieId);
@@ -323,7 +334,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpDelete("Unlink")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Unlink(int customerId, int movieId)
         {
             ServiceResponse response = await _customerService.UnlinkCustomerFromMovie(customerId, movieId);
@@ -339,6 +350,25 @@ namespace CreativeCollaboration.Controllers
 
             return NoContent();
 
+        }
+
+
+
+        [HttpGet(template: "Profile")]
+        [Authorize(Roles = "admin,customer")]
+        public async Task<ActionResult<CustomerDto>> Profile()
+        {
+
+            CustomerDto? Customer = await _customerService.Profile();
+            // if the Customer could not be located, return 404 Not Found
+            if (Customer == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(Customer);
+            }
         }
 
     }

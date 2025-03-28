@@ -17,6 +17,12 @@ namespace CreativeCollaboration.Models
         [StringLength(15, ErrorMessage = "Phone number cannot exceed 15 characters.")]
         public string Phone { get; set; }
 
+        // Additional Columns
+        public string CustomerAccountId { get; set; } = "";
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
+
         //one customer can have many orders
         public ICollection<Order> Orders { get; set; }
 
@@ -31,6 +37,8 @@ namespace CreativeCollaboration.Models
     {
         [Key]
         public int CustomerId { get; set; }
+
+        public string CustomerAccountId { get; set; } = "";
 
         [Required]
         public string Name { get; set; }

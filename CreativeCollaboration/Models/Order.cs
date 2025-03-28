@@ -18,6 +18,11 @@ namespace CreativeCollaboration.Models
 
         public int? CustomerId { get; set; }
 
+        [ForeignKey("Customers")]
+
+        // Customer Account Info
+        public string CustomerAccountId { get; set; } = "";
+
         public virtual Customer Customer { get; set; }
 
         //one order can have many order items
