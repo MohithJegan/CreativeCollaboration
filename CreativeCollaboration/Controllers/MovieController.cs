@@ -32,6 +32,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpGet(template: "List")]
+        [Authorize(Roles = "admin,customer")]
         public async Task<ActionResult<IEnumerable<MovieDto>>> ListMovies()
         {
             // empty list of data transfer object MovieDto
@@ -58,6 +59,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpGet(template: "Find/{id}")]
+        [Authorize(Roles = "admin,customer")]
         public async Task<ActionResult<MovieDto>> FindMovie(int id)
         {
 
@@ -97,7 +99,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpPut(template: "Update/{id}")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> UpdateMovie(int id, MovieDto MovieDto)
         {
             // {id} in URL must match MovieId in POST Body
@@ -146,7 +148,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpPost(template: "Add")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Studio>> AddMovie(MovieDto MovieDto)
         {
             ServiceResponse response = await _movieService.AddMovie(MovieDto);
@@ -184,7 +186,7 @@ namespace CreativeCollaboration.Controllers
 
 
         [HttpDelete("Delete/{id}")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteMovie(int id)
         {
             ServiceResponse response = await _movieService.DeleteMovie(id);
@@ -217,6 +219,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpGet(template: "ListMoviesForActor/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ListMoviesForActor(int id)
         {
             // empty list of data transfer object MovieDto
@@ -240,6 +243,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpGet(template: "ListMoviesForStudio/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ListMoviesForStudio(int id)
         {
             // empty list of data transfer object MovieDto
@@ -264,6 +268,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpGet(template: "ListMoviesForCustomer/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ListMoviesForCustomer(int id)
         {
             // empty list of data transfer object MovieDto
@@ -293,7 +298,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpPost("Link")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Link(int movieId, int actorId)
         {
             ServiceResponse response = await _movieService.LinkMovieToActor(movieId, actorId);
@@ -330,7 +335,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpDelete("Unlink")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Unlink(int movieId, int actorId)
         {
             ServiceResponse response = await _movieService.UnlinkMovieFromActor(movieId, actorId);
@@ -370,7 +375,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpPost("LinkMovie")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> LinkMovie(int movieId, int customerId)
         {
             ServiceResponse response = await _movieService.LinkMovieToCustomer(movieId, customerId);
@@ -407,7 +412,7 @@ namespace CreativeCollaboration.Controllers
         /// </example>
 
         [HttpDelete("UnlinkMovie")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> UnlinkMovie(int movieId, int customerId)
         {
             ServiceResponse response = await _movieService.UnlinkMovieFromCustomer(movieId, customerId);

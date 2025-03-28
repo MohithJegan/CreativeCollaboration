@@ -16,5 +16,7 @@ namespace CreativeCollaboration.Interfaces
         Task<ServiceResponse> LinkCustomerToMovie(int customerId, int movieId);
 
         Task<ServiceResponse> UnlinkCustomerFromMovie(int customerId, int movieId);
+
+        Task<CustomerDto?> Profile();
     }
 }

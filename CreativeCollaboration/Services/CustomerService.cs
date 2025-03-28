@@ -2,41 +2,116 @@
 using CreativeCollaboration.Data;
 using CreativeCollaboration.Interfaces;
 using CreativeCollaboration.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CreativeCollaboration.Services
 {
     public class CustomerService : ICustomerService
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CustomerService(ApplicationDbContext context)
+        public CustomerService(ApplicationDbContext context, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+        //public async Task<IEnumerable<CustomerDto>> ListCustomers()
+        //{
+
+        //    List<Customer> customers = await _context.Customers
+        //        .Include(c => c.Orders)
+        //        .ThenInclude(o => o.OrderItems)
+        //        .ToListAsync(); // ✅ Convert to List first
+
+        //    List<CustomerDto> customerDtos = new();
+
+        //    foreach (Customer customer in customers)
+        //    {
+        //        var lastOrder = customer.Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault();
+
+        //        customerDtos.Add(new CustomerDto()
+        //        {
+        //            CustomerId = customer.CustomerId,
+        //            Name = customer.Name,
+        //            LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null, // ✅ Fixed nullable issue
+        //            LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
+        //                             ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
+        //                             : 0
+        //        });
+        //    }
+
+        //    return customerDtos;
+        //}
 
         public async Task<IEnumerable<CustomerDto>> ListCustomers()
         {
+            // user manager over database context
+            //IEnumerable<IdentityUser> Users = await _userManager.GetUsersInRoleAsync("Customer");
+            IdentityUser? Users = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            //Debug.WriteLine("Logged In", Users.Email);
+
             List<Customer> customers = await _context.Customers
                 .Include(c => c.Orders)
                 .ThenInclude(o => o.OrderItems)
                 .ToListAsync(); // ✅ Convert to List first
 
             List<CustomerDto> customerDtos = new();
-
-            foreach (Customer customer in customers)
+            if(Users!= null)
             {
-                var lastOrder = customer.Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault();
-
-                customerDtos.Add(new CustomerDto()
+                // Admin to see all the customers
+                if (Users.Email == "mohith@test.ca")
                 {
-                    CustomerId = customer.CustomerId,
-                    Name = customer.Name,
-                    LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null, // ✅ Fixed nullable issue
-                    LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
-                                     ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
-                                     : 0
-                });
+                    foreach (Customer customer in customers)
+                    {
+                        var lastOrder = customer.Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault();
+
+                        customerDtos.Add(new CustomerDto()
+                        {
+                            CustomerId = customer.CustomerId,
+                            Name = customer.Name,
+                            LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null, // ✅ Fixed nullable issue
+                            LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
+                                             ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
+                                             : 0
+                        });
+                    }
+
+                }
+
+                else
+                {
+                    // customer to see only their profile
+                    foreach (Customer customer in customers)
+                    {
+                        var lastOrder = customer.Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault();
+
+                        if (customer.Email == Users.Email)
+                        {
+                            customerDtos.Add(new CustomerDto()
+                            {
+                                CustomerId = customer.CustomerId,
+                                Name = customer.Name,
+                                LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null, // ✅ Fixed nullable issue
+                                LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
+                                             ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
+                                             : 0
+                            });
+                        }
+
+
+                    }
+                }
+
             }
+
+           
+        
 
             return customerDtos;
         }
@@ -293,6 +368,35 @@ namespace CreativeCollaboration.Services
 
             serviceResponse.Status = ServiceResponse.ServiceStatus.Deleted;
             return serviceResponse;
+        }
+
+
+
+        public async Task<CustomerDto?> Profile()
+        {
+
+            IdentityUser? User = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
+            var customer = await _context.Customers
+                .Include(c => c.Orders)
+                .ThenInclude(o => o.OrderItems)
+                .FirstOrDefaultAsync(c => c.CustomerAccountId == User.Id);
+            var lastOrder = customer.Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault();
+
+            CustomerDto CustomerDto = new CustomerDto()
+            {
+                CustomerId = customer.CustomerId,
+                CustomerAccountId = customer.CustomerAccountId,
+                Name = customer.Name,
+                Email = customer.Email,
+                Phone = customer.Phone,
+                LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null, // ✅ Fixed nullable issue
+                LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
+                                     ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
+                                     : 0
+            };
+
+            return CustomerDto;
         }
 
 

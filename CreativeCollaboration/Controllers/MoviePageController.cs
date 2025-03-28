@@ -27,6 +27,8 @@ namespace CreativeCollaboration.Controllers
             return RedirectToAction("List");
         }
 
+        [HttpGet]
+        [Authorize(Roles = "admin, customer")]
         // GET: MoviePage/List
         public async Task<IActionResult> List()
         {
@@ -36,6 +38,7 @@ namespace CreativeCollaboration.Controllers
 
         // GET: MoviePage/Details/{id}
         [HttpGet]
+        [Authorize(Roles = "admin, customer")]
         public async Task<IActionResult> Details(int id)
         {
             MovieDto? MovieDto = await _movieService.FindMovie(id);
@@ -75,7 +78,7 @@ namespace CreativeCollaboration.Controllers
 
         // POST MoviePage/Add
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Add(MovieDto MovieDto)
         {
             ServiceResponse response = await _movieService.AddMovie(MovieDto);
@@ -115,7 +118,7 @@ namespace CreativeCollaboration.Controllers
 
         //POST MoviePage/Update/{id}
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update(int id, MovieDto MovieDto)
         {
             ServiceResponse response = await _movieService.UpdateMovie(MovieDto);
@@ -142,7 +145,7 @@ namespace CreativeCollaboration.Controllers
 
         //POST MoviePage/Delete/{id}
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             ServiceResponse response = await _movieService.DeleteMovie(id);
@@ -160,7 +163,7 @@ namespace CreativeCollaboration.Controllers
         //POST MoviePage/LinkToActor
         //DATA: movieId={movieId}&actorId={actorId}
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> LinkToActor([FromForm] int movieId, [FromForm] int actorId)
         {
             await _movieService.LinkMovieToActor(movieId, actorId);
@@ -171,7 +174,7 @@ namespace CreativeCollaboration.Controllers
         //POST MoviePage/UnlinkFromActor
         //DATA: movieId={movieId}&actorId={actorId}
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UnlinkFromActor([FromForm] int movieId, [FromForm] int actorId)
         {
             await _movieService.UnlinkMovieFromActor(movieId, actorId);
@@ -182,7 +185,7 @@ namespace CreativeCollaboration.Controllers
         //POST MoviePage/LinkToCustomer
         //DATA: movieId={movieId}&customerId={actorId}
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> LinkToCustomer([FromForm] int movieId, [FromForm] int customerId)
         {
             await _movieService.LinkMovieToCustomer(movieId, customerId);
@@ -193,7 +196,7 @@ namespace CreativeCollaboration.Controllers
         //POST MoviePage/UnlinkFromCustomer
         //DATA: movieId={movieId}&customerId={actorId}
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UnlinkFromCustomer([FromForm] int movieId, [FromForm] int customerId)
         {
             await _movieService.UnlinkMovieFromCustomer(movieId, customerId);

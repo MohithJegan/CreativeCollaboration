@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<CreativeCollaboration.Models.CustomerDto>
 
+
 @{
     ViewData["Title"] = "Customer List";
 }
@@ -9,53 +10,99 @@
         color: black;
     }
 </style>
+@if(Model.Any() && @ViewData["User"]=="Admin"){
 
-<div class="customer-container">
-    <h1>@ViewData["Title"]</h1>
+    <div class="customer-container">
+        <h1>@ViewData["Title"]</h1>
 
-    <div class="header-actions">
-        <a asp-action="AddCustomer" class="btn btn-primary">+ Add New Customer</a>
-    </div>
+        <div class="header-actions">
+            <a asp-action="AddCustomer" class="btn btn-primary">+ Add New Customer</a>
+        </div>
 
-    <div class="table-responsive">
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Last Order Date</th>
-                    <th>Last Order Price</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var customer in Model)
-                {
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
                     <tr>
-                        <td>@customer.CustomerId</td>
-                        <td>@customer.Name</td>
-                        <td>
-                            @if (customer.LastOrderDate == null)
-                            {
-                                <span class="text-warning">No Orders Yet</span>
-                            }
-                            else
-                            {
-                                <span>@customer.LastOrderDate.Value.ToString("yyyy-MM-dd")</span>
-                            }
-                        </td>
-                        <td>@customer.LastOrderPrice.ToString("C")</td>
-                        <td class="action-buttons">
-                            <a class="btn btn-info" href="@Url.Action("Details", "CustomerPage", new { id = customer.CustomerId })">View</a>
-                            <a class="btn btn-warning" href="@Url.Action("Edit", "CustomerPage", new { id = customer.CustomerId })">Edit</a>
-                            <a class="btn btn-danger" href="@Url.Action("DeleteCustomer", "CustomerPage", new { id = customer.CustomerId })">Delete</a>
-                        </td>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Last Order Date</th>
+                        <th>Last Order Price</th>
+                        <th>Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Model)
+                    {
+                        <tr>
+                            <td>@customer.CustomerId</td>
+                            <td>@customer.Name</td>
+                            <td>
+                                @if (customer.LastOrderDate == null)
+                                {
+                                    <span class="text-warning">No Orders Yet</span>
+                                }
+                                else
+                                {
+                                    <span>@customer.LastOrderDate.Value.ToString("yyyy-MM-dd")</span>
+                                }
+                            </td>
+                            <td>@customer.LastOrderPrice.ToString("C")</td>
+                            <td class="action-buttons">
+                                <a class="btn btn-info" href="@Url.Action("Details", "CustomerPage", new { id = customer.CustomerId })">View</a>
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "CustomerPage", new { id = customer.CustomerId })">Edit</a>
+                                <a class="btn btn-danger" href="@Url.Action("DeleteCustomer", "CustomerPage", new { id = customer.CustomerId })">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+}
+
+@if(Model.Any() && @ViewData["User"]=="Customer"){
+    <div class="customer-container">
+        <h1>@ViewData["Title"]</h1>
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Last Order Date</th>
+                        <th>Last Order Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Model)
+                    {
+                        <tr>
+                            <td>@customer.Name</td>
+                            <td>
+                                @if (customer.LastOrderDate == null)
+                                {
+                                    <span class="text-warning">No Orders Yet</span>
+                                }
+                                else
+                                {
+                                    <span>@customer.LastOrderDate.Value.ToString("yyyy-MM-dd")</span>
+                                }
+                            </td>
+                            <td>@customer.LastOrderPrice.ToString("C")</td>
+                            <td class="action-buttons">
+                                <a class="btn btn-info" href="@Url.Action("Details", "CustomerPage", new { id = customer.CustomerId })">View</a>
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "CustomerPage", new { id = customer.CustomerId })">Edit</a>
+                                <a class="btn btn-danger" href="@Url.Action("DeleteCustomer", "CustomerPage", new { id = customer.CustomerId })">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
 
 <style>
     /* Container Styles */

@@ -31,14 +31,27 @@ namespace CreativeCollaboration.Controllers
 
         // GET: CustomerPage/ListCustomers
         [HttpGet("ListCustomers")]
+        [Authorize(Roles = "admin, customer")]
         public async Task<IActionResult> List()
         {
+            string UserRole = "";
             IEnumerable<CustomerDto?> customerDtos = await _customerService.ListCustomers();
+            if (customerDtos.Count() > 1)
+            {
+                UserRole = "Admin";
+                ViewData["User"] = UserRole;
+            }
+            else
+            {
+                UserRole = "Customer";
+                ViewData["User"] = UserRole;
+            }
             return View(customerDtos);
         }
 
         // GET: CustomerPage/CustomerDetails/{id}
         [HttpGet("CustomerDetails/{id}")]
+        [Authorize(Roles = "admin, customer")]
         public async Task<IActionResult> Details(int id)
         {
             CustomerDto? customerDto = await _customerService.FindCustomer(id);
