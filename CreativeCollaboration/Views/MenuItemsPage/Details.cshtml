@@ -1,116 +1,35 @@
 ﻿@model CreativeCollaboration.Models.MenuItemDto
 
-@{
-    ViewData["Title"] = "Menu Item Details";
-}
+<div class="container mt-4">
+    <h2 class="fw-bold text-light">Menu Item Details</h2>
 
-<div class="menu-details-container">
-    <div class="menu-details-card">
-        <h2 class="text-center">Menu Item Details</h2>
+    <!-- Card for Basic Information -->
+    <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <div class="card-body text-center">
+            <h5 class="fw-bold text-light">Item Information</h5>
+            <hr style="border-color: rgba(255, 255, 255, 0.2);">
 
-        <div class="menu-info">
-            <h3>@Model.MName</h3>
-            <p><strong>Description:</strong> @Model.Description</p>
-            <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
-        </div>
-
-        <hr class="divider" />
-
-        <div class="button-group">
-            <a asp-action="List" class="btn btn-secondary">Back to Menu List</a>
-            <a asp-action="EditMenuItem" asp-route-id="@Model.MenuItemId" class="btn btn-warning">Edit</a>
-            <a asp-action="DeleteMenuItem" asp-route-id="@Model.MenuItemId" class="btn btn-danger">Delete</a>
+            <!-- Menu Item Details -->
+            <p class="text-light"><strong>Item Name:</strong> @Model.MName</p>
+            <p class="text-light"><strong>Description:</strong> @Model.Description</p>
+            <p class="text-light"><strong>Price:</strong> @Model.Price.ToString("C")</p>
         </div>
     </div>
+
+    <!-- Buttons -->
+    <div class="mt-4 d-flex justify-content-center gap-3">
+        <a class="btn btn-warning" asp-action="EditMenuItem" asp-route-id="@Model.MenuItemId"
+           style="background: rgba(255, 255, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+            Edit
+        </a>
+        <a class="btn btn-danger" asp-action="DeleteMenuItem" asp-route-id="@Model.MenuItemId"
+           style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+            Delete
+        </a>
+        <a class="btn btn-secondary" asp-action="List"
+           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+            Back to Menu List
+        </a>
+    </div>
 </div>
-
-<style>
-    /* Layout Styling */
-    .menu-details-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #f8f9fa;
-    }
-
-    .menu-details-card {
-        width: 600px;
-        padding: 30px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    /* Typography */
-    h2 {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #007bff;
-    }
-
-    .menu-info p {
-        font-size: 1rem;
-        margin: 5px 0;
-    }
-
-    /* Divider */
-    .divider {
-        margin: 20px 0;
-        border: 0;
-        height: 1px;
-        background: #ddd;
-    }
-
-    /* Buttons */
-    .button-group {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .btn {
-        font-size: 1rem;
-        padding: 10px 20px;
-        border-radius: 8px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-        color: white;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-
-    .btn-warning {
-        background-color: #ffc107;
-        border-color: #ffc107;
-    }
-
-        .btn-warning:hover {
-            background-color: #e0a800;
-        }
-
-    .btn-danger {
-        background-color: #dc3545;
-        border: none;
-        color: white;
-    }
-
-        .btn-danger:hover {
-            background-color: #bd2130;
-        }
-</style>

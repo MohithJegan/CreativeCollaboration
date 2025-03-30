@@ -1,86 +1,46 @@
 ﻿@model AUCustomerDto
 
-<h2 class="text-center my-4">Add Customer</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-uppercase fw-bold text-light">Add Customer</h2>
+    <a asp-action="List" class="btn btn-outline-light px-4 py-2">
+        Back to List
+    </a>
+</div>
 
-<form asp-action="AddCustomer" method="post" class="container p-4 border rounded shadow-sm bg-light">
+<!-- Form -->
+<form asp-action="AddCustomer" method="post"
+      style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px;">
     @Html.AntiForgeryToken()
 
-    <div class="form-group mb-4">
-        <label asp-for="Name" class="control-label font-weight-bold"></label>
-        <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter customer's name" required />
+    <!-- Name -->
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label fw-semibold text-light">Name:</label>
+        <input asp-for="Name" class="form-control" placeholder="Enter customer's name" required
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-4">
-        <label asp-for="Email" class="control-label font-weight-bold"></label>
-        <input asp-for="Email" class="form-control form-control-lg" type="email" placeholder="Enter customer's email" required />
+    <!-- Email -->
+    <div class="form-group mb-3">
+        <label asp-for="Email" class="form-label fw-semibold text-light">Email:</label>
+        <input asp-for="Email" class="form-control" type="email" placeholder="Enter customer's email" required
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-4">
-        <label asp-for="Phone" class="control-label font-weight-bold"></label>
-        <input asp-for="Phone" class="form-control form-control-lg" type="tel" pattern="^[0-9]{10}$" placeholder="Enter customer's phone number" required />
+    <!-- Phone -->
+    <div class="form-group mb-3">
+        <label asp-for="Phone" class="form-label fw-semibold text-light">Phone:</label>
+        <input asp-for="Phone" class="form-control" type="tel" pattern="^[0-9]{10}$" placeholder="Enter customer's phone number" required
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
 
-    <div class="form-group text-center mb-4">
-        <button type="submit" class="btn btn-primary btn-lg px-5 py-2">Add Customer</button>
+    <!-- Submit Button -->
+    <div class="form-group mt-3 text-center">
+        <button type="submit" class="btn btn-success"
+                style="background: rgba(40, 167, 69, 0.8); border: 1px solid rgba(40, 167, 69, 0.8); color: white;">
+            Add Customer
+        </button>
     </div>
 </form>
-
-<div class="text-center mt-4">
-    <a asp-action="List" class="btn btn-secondary btn-lg px-5 py-2">Back to List</a>
-</div>
-
-<style>
-    .container {
-        max-width: 600px;
-    }
-
-    form {
-        background-color: #f8f9fa;
-    }
-
-    h2 {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #343a40;
-    }
-
-    .form-group label {
-        font-size: 1.1rem;
-        color: #495057;
-    }
-
-    .form-control {
-        font-size: 1.1rem;
-        padding: 10px;
-    }
-
-    .btn {
-        font-size: 1.1rem;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border-color: #6c757d;
-    }
-
-    .form-group span {
-        font-size: 0.9rem;
-        color: #dc3545;
-    }
-
-    .form-group.mb-4 {
-        margin-bottom: 30px;
-    }
-
-    .btn-lg {
-        padding: 12px 20px;
-    }
-</style>
