@@ -1,135 +1,47 @@
 ﻿@model AUCustomerDto
 
-<div class="edit-customer-container">
-    <div class="edit-customer-card">
-        <h2 class="text-center">Edit Customer</h2>
+<div class="container mt-4">
+    <h2 class="text-uppercase fw-bold text-light">Edit Customer</h2>
 
-        <form asp-controller="CustomerPage" asp-action="Edit" asp-route-id="@Model.CustomerId" method="post">
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="CustomerId" />
+    <!-- Form -->
+    <form asp-controller="CustomerPage" asp-action="Edit" asp-route-id="@Model.CustomerId" method="post"
+          style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="CustomerId" />
 
-            <div class="form-group">
-                <label asp-for="Name" class="form-label">Full Name</label>
-                <input asp-for="Name" class="form-control" placeholder="Enter full name" required />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+        <!-- Name -->
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label fw-bold text-light">Full Name:</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter full name" required
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Email" class="form-label">Email Address</label>
-                <input asp-for="Email" class="form-control" type="email" placeholder="Enter email" required />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+        <!-- Email -->
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label fw-bold text-light">Email Address:</label>
+            <input asp-for="Email" class="form-control" type="email" placeholder="Enter email" required
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Phone" class="form-label">Phone Number</label>
-                <input asp-for="Phone" class="form-control" type="tel" pattern="^[0-9]{10}$" placeholder="Enter phone number" required />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
+        <!-- Phone -->
+        <div class="mb-3">
+            <label asp-for="Phone" class="form-label fw-bold text-light">Phone Number:</label>
+            <input asp-for="Phone" class="form-control" type="tel" pattern="^[0-9]{10}$" placeholder="Enter phone number" required
+                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
 
-            <div class="button-group">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a asp-action="Details" asp-route-id="@Model.CustomerId" class="btn btn-secondary">Back to Details</a>
-            </div>
-        </form>
-    </div>
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success fw-bold"
+                    style="background: rgba(40, 167, 69, 0.8); border: 1px solid rgba(40, 167, 69, 0.8); color: white;">
+                Save Changes
+            </button>
+            <a asp-action="Details" asp-route-id="@Model.CustomerId" class="btn btn-secondary fw-bold"
+               style="background: rgba(108, 117, 125, 0.8); border: 1px solid rgba(108, 117, 125, 0.8); color: white;">Back to Details</a>
+        </div>
+    </form>
 </div>
-
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
-
-<style>
-    /* Container and Card Styling */
-    .edit-customer-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f8f9fa;
-    }
-
-    .edit-customer-card {
-        width: 450px;
-        padding: 30px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    /* Typography */
-    h2 {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .form-label {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #495057;
-        display: block;
-        text-align: left;
-        margin-bottom: 5px;
-    }
-
-    /* Input Fields */
-    .form-control {
-        width: 100%;
-        padding: 12px;
-        font-size: 1rem;
-        border-radius: 8px;
-        border: 1px solid #ced4da;
-        transition: border-color 0.3s ease-in-out;
-    }
-
-    .form-control:focus {
-        border-color: #007bff;
-        outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-    }
-
-    /* Buttons */
-    .button-group {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .btn {
-        font-size: 1rem;
-        padding: 12px 24px;
-        border-radius: 8px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-        color: white;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
-        transform: translateY(-2px);
-    }
-
-    /* Error Messages */
-    .text-danger {
-        font-size: 0.875rem;
-        display: block;
-        margin-top: 5px;
-    }
-</style>
+    

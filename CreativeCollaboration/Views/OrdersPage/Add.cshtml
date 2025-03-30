@@ -1,63 +1,63 @@
 ﻿@model AUOrderDto
 
-<div class="add-order-container">
-    <div class="add-order-card">
-        <h2 class="text-center">Add New Order</h2>
-
-        <form asp-action="Add" method="post">
-            @Html.AntiForgeryToken()
-
-            <!-- Customer Selection -->
-            <div class="form-group">
-                <label for="customerId">Customer Name:</label>
-                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.Customers" required>
-                    <option value="">-- Select Customer --</option>
-                </select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
-
-            <!-- Order Date -->
-            <div class="form-group">
-                <label asp-for="OrderDate">Order Date:</label>
-                <input asp-for="OrderDate" type="date" class="form-control" required />
-                <span asp-validation-for="OrderDate" class="text-danger"></span>
-            </div>
-
-            <hr />
-
-            <!-- Order Items -->
-            <h3 class="text-center">Order Items</h3>
-            <div id="orderItemsContainer">
-                <div class="order-item">
-                    <label>Menu Item:</label>
-                    <select name="OrderItems[0].MenuItemId" class="form-control menu-item-select">
-                        <option value="">-- Select Menu Item --</option>
-                        @foreach (var item in ViewBag.MenuItems)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }
-                    </select>
-
-                    <label>Quantity:</label>
-                    <input name="OrderItems[0].Quantity" type="number" class="form-control quantity-input" min="1" required />
-
-                    <input type="hidden" name="OrderItems[0].UnitOrderItemPrice" class="unit-price" />
-                    <input type="hidden" name="OrderItems[0].TotalPrice" class="total-price" />
-                </div>
-            </div>
-
-            <button type="button" id="addItem" class="btn btn-secondary mt-2">+ Add Another Item</button>
-
-            <hr />
-
-            <!-- Buttons -->
-            <div class="button-group">
-                <button type="submit" class="btn btn-primary">Place Order</button>
-                <a asp-action="List" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-uppercase fw-bold text-light">Add New Order</h2>
+    <a asp-action="Index" class="btn btn-outline-light px-4 py-2">Back to List</a>
 </div>
+
+<!-- Form -->
+<form asp-action="Add" method="post" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px;">
+    @Html.AntiForgeryToken()
+
+    <!-- Customer Selection -->
+    <div class="form-group mb-3">
+        <label for="CustomerId" class="form-label fw-semibold text-light">Customer Name:</label>
+        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.Customers" required>
+            <option value="">-- Select Customer --</option>
+        </select>
+        <span asp-validation-for="CustomerId" class="text-danger"></span>
+    </div>
+
+    <!-- Order Date -->
+    <div class="form-group mb-3">
+        <label asp-for="OrderDate" class="form-label fw-semibold text-light">Order Date:</label>
+        <input asp-for="OrderDate" type="date" class="form-control" required />
+        <span asp-validation-for="OrderDate" class="text-danger"></span>
+    </div>
+
+    <hr />
+
+    <!-- Order Items -->
+    <h3 class="text-center">Order Items</h3>
+    <div id="orderItemsContainer">
+        <div class="order-item">
+            <label class="fw-semibold text-light">Menu Item:</label>
+            <select name="OrderItems[0].MenuItemId" class="form-control menu-item-select" required>
+                <option value="">-- Select Menu Item --</option>
+                @foreach (var item in ViewBag.MenuItems)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+
+            <label class="fw-semibold text-light">Quantity:</label>
+            <input name="OrderItems[0].Quantity" type="number" class="form-control quantity-input" min="1" required />
+
+            <input type="hidden" name="OrderItems[0].UnitOrderItemPrice" class="unit-price" />
+            <input type="hidden" name="OrderItems[0].TotalPrice" class="total-price" />
+        </div>
+    </div>
+
+    <button type="button" id="addItem" class="btn btn-secondary mt-2">+ Add Another Item</button>
+
+    <hr />
+
+    <!-- Buttons -->
+    <div class="form-group mt-3">
+        <input type="submit" class="btn btn-success" value="Place Order" style="background: rgba(40, 167, 69, 0.8); border: 1px solid rgba(40, 167, 69, 0.8); color: white;" />
+        <a asp-action="List" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -85,7 +85,6 @@
 </script>
 
 <style>
-    /* Centered Form Container */
     .add-order-container {
         display: flex;
         justify-content: center;
@@ -97,17 +96,9 @@
     .add-order-card {
         width: 550px;
         padding: 30px;
-        background: white;
+        background: rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Typography */
-    h2, h3 {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #333;
-        text-align: center;
     }
 
     label {
@@ -115,29 +106,17 @@
         font-size: 1rem;
         display: block;
         margin-top: 10px;
+        color: white;
     }
 
-    /* Form Controls */
     .form-control {
         width: 100%;
         padding: 12px;
         font-size: 1rem;
         border-radius: 6px;
-        border: 1px solid #ced4da;
-        transition: border-color 0.3s ease-in-out;
-    }
-
-    .form-control:focus {
-        border-color: #007bff;
-        outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-    }
-
-    /* Buttons */
-    .button-group {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
     }
 
     .btn {
@@ -147,25 +126,7 @@
         transition: all 0.3s ease-in-out;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-        color: white;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
+    .btn-primary:hover, .btn-secondary:hover {
         transform: translateY(-2px);
     }
 </style>

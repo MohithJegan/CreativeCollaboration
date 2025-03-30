@@ -1,135 +1,56 @@
 ﻿@model AUMenuItemDto
 
-<div class="edit-menu-container">
-    <div class="edit-menu-card">
-        <h2 class="text-center">Edit Menu Item</h2>
+<div class="container mt-4">
+    <h2 class="fw-bold text-light">Edit Menu Item</h2>
 
-        <form asp-controller="MenuItemsPage" asp-action="Edit" asp-route-id="@Model.MenuItemId" method="post">
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="MenuItemId" />
+    <!-- Card -->
+    <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <div class="card-body">
+            <form asp-controller="MenuItemsPage" asp-action="Edit" asp-route-id="@Model.MenuItemId" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="MenuItemId" />
 
-            <div class="form-group">
-                <label asp-for="MName" class="form-label">Item Name</label>
-                <input asp-for="MName" class="form-control" placeholder="Enter menu item name" required />
-                <span asp-validation-for="MName" class="text-danger"></span>
-            </div>
+                <!-- Item Name -->
+                <div class="mb-3">
+                    <label asp-for="MName" class="form-label fw-bold text-light">Item Name:</label>
+                    <input asp-for="MName" class="form-control" placeholder="Enter menu item name" required
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    <span asp-validation-for="MName" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Description" class="form-label">Description</label>
-                <textarea asp-for="Description" class="form-control" placeholder="Enter description" required></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-bold text-light">Description:</label>
+                    <textarea asp-for="Description" class="form-control" placeholder="Enter description" required
+                              style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Price" class="form-label">Price</label>
-                <input asp-for="Price" class="form-control" type="number" step="0.01" placeholder="Enter price" required />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
+                <!-- Price -->
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label fw-bold text-light">Price:</label>
+                    <input asp-for="Price" class="form-control" type="number" step="0.01" placeholder="Enter price" required
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
 
-            <div class="button-group">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a asp-action="Details" asp-route-id="@Model.MenuItemId" class="btn btn-secondary">Back to Details</a>
-            </div>
-        </form>
+                <!-- Buttons -->
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary"
+                            style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                        Save Changes
+                    </button>
+                    <a asp-action="Details" asp-route-id="@Model.MenuItemId" class="btn btn-secondary ms-2"
+                       style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                        Back to Details
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-
-<style>
-    /* Container and Card Styling */
-    .edit-menu-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f8f9fa;
-    }
-
-    .edit-menu-card {
-        width: 450px;
-        padding: 30px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    /* Typography */
-    h2 {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .form-label {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #495057;
-        display: block;
-        text-align: left;
-        margin-bottom: 5px;
-    }
-
-    /* Input Fields */
-    .form-control {
-        width: 100%;
-        padding: 12px;
-        font-size: 1rem;
-        border-radius: 8px;
-        border: 1px solid #ced4da;
-        transition: border-color 0.3s ease-in-out;
-    }
-
-        .form-control:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-        }
-
-    /* Buttons */
-    .button-group {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .btn {
-        font-size: 1rem;
-        padding: 12px 24px;
-        border-radius: 8px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-        color: white;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-        color: white;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-
-    /* Error Messages */
-    .text-danger {
-        font-size: 0.875rem;
-        display: block;
-        margin-top: 5px;
-    }
-</style>

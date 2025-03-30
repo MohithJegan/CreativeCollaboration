@@ -1,253 +1,93 @@
 ﻿@model AUOrderDto
 
-<div class="edit-order-container">
-    <div class="edit-order-card">
-        <h2 class="text-center">Edit Order</h2>
+<div class="container mt-4">
+    <h2 class="fw-bold text-light">Edit Order</h2>
 
-        <form asp-action="Edit" asp-route-id="@Model.OrderId" method="post">
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="OrderId" />
+    <!-- Card -->
+    <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <div class="card-body">
+            <form asp-action="Edit" asp-route-id="@Model.OrderId" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="OrderId" />
 
-            <!-- Customer Selection -->
-            <div class="form-group">
-                <label asp-for="CustomerId" class="form-label">Customer</label>
-                <select asp-for="CustomerId" class="form-control dropdown" asp-items="ViewBag.Customers">
-                    <option value="">-- Select Customer --</option>
-                </select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
+                <!-- Customer Selection -->
+                <div class="mb-3">
+                    <label asp-for="CustomerId" class="form-label fw-bold text-light">Customer</label>
+                    <select asp-for="CustomerId" class="form-control dropdown"
+                            asp-items="ViewBag.Customers"
+                            style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                        <option value="">-- Select Customer --</option>
+                    </select>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+                </div>
 
-            <!-- Order Date -->
-            <div class="form-group">
-                <label asp-for="OrderDate" class="form-label">Order Date</label>
-                <input asp-for="OrderDate" class="form-control date-input" type="date" />
-                <span asp-validation-for="OrderDate" class="text-danger"></span>
-            </div>
+                <!-- Order Date -->
+                <div class="mb-3">
+                    <label asp-for="OrderDate" class="form-label fw-bold text-light">Order Date</label>
+                    <input asp-for="OrderDate" class="form-control date-input"
+                           type="date"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                    <span asp-validation-for="OrderDate" class="text-danger"></span>
+                </div>
 
-            <hr class="divider" />
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
 
-            <h3 class="text-center">Order Items</h3>
+                <h5 class="fw-bold text-light">Order Items</h5>
+                <div class="table-responsive">
+                    <table class="table table-borderless"
+                           style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                        <thead>
+                            <tr>
+                                <th class="text-light">Menu Item</th>
+                                <th class="text-light">Quantity</th>
+                                <th class="text-light">Unit Price</th>
+                                <th class="text-light">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.OrderItems.Count; i++)
+                            {
+                                    <tr>
+                                        <td>
+                                            <select asp-for="OrderItems[i].MenuItemId" class="form-control menu-item-dropdown"
+                                                    asp-items="ViewBag.MenuItems"
+                                                    style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                                <option value="">-- Select Menu Item --</option>
+                                            </select>
+                                            <input type="hidden" asp-for="OrderItems[i].OrderItemId" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="OrderItems[i].Quantity" class="form-control quantity-input"
+                                                   type="number" min="1"
+                                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="OrderItems[i].UnitOrderItemPrice" class="form-control" type="text" readonly
+                                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="OrderItems[i].TotalPrice" class="form-control" type="text" readonly
+                                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                                        </td>
+                                    </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
-            <table class="styled-table">
-                <thead>
-                    <tr>
-                        <th>Menu Item</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.OrderItems.Count; i++)
-                    {
-                        <tr>
-                            <td>
-                                <select asp-for="OrderItems[i].MenuItemId" class="form-control menu-item-dropdown"
-                                        asp-items="ViewBag.MenuItems" data-index="@i" onchange="updatePrice(@i)">
-                                    <option value="">-- Select Menu Item --</option>
-                                </select>
-                                <input type="hidden" asp-for="OrderItems[i].OrderItemId" />
-                                <span asp-validation-for="OrderItems[i].MenuItemId" class="text-danger"></span>
-                            </td>
-                            <td>
-                                <input asp-for="OrderItems[i].Quantity" class="form-control quantity-input"
-                                       type="number" min="1" data-index="@i" oninput="updateTotal(@i)" />
-                                <span asp-validation-for="OrderItems[i].Quantity" class="text-danger"></span>
-                            </td>
-                            <td>
-                                <input asp-for="OrderItems[i].UnitOrderItemPrice" id="unitPrice-@i"
-                                       class="form-control" type="text" readonly />
-                                <input type="hidden" name="OrderItems[@i].UnitOrderItemPrice"
-                                       id="hiddenUnitPrice-@i" value="@Model.OrderItems[i].UnitOrderItemPrice" />
-                            </td>
-                            <td>
-                                <input asp-for="OrderItems[i].TotalPrice" id="totalPrice-@i"
-                                       class="form-control" type="text" readonly />
-                                <input type="hidden" name="OrderItems[@i].TotalPrice"
-                                       id="hiddenTotalPrice-@i" value="@Model.OrderItems[i].TotalPrice" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
-            <div class="button-group">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a asp-action="Details" asp-route-id="@Model.OrderId" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
+                <!-- Buttons -->
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary"
+                            style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                        Save Changes
+                    </button>
+                    <a asp-action="Details" asp-route-id="@Model.OrderId" class="btn btn-secondary ms-2"
+                       style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<script>
-    function updatePrice(index) {
-        var menuItemDropdown = document.getElementById("OrderItems_" + index + "__MenuItemId");
-        var selectedOption = menuItemDropdown.options[menuItemDropdown.selectedIndex].text;
-        var price = selectedOption.match(/\$(\d+(\.\d{1,2})?)/); // Extract price
-
-        var unitPriceField = document.getElementById("unitPrice-" + index);
-        var hiddenUnitPrice = document.getElementById("hiddenUnitPrice-" + index);
-
-        if (price) {
-            unitPriceField.value = price[1];
-            hiddenUnitPrice.value = price[1];
-        } else {
-            unitPriceField.value = "0";
-            hiddenUnitPrice.value = "0";
-        }
-
-        updateTotal(index);
-    }
-
-    function updateTotal(index) {
-        var quantity = document.getElementById("OrderItems_" + index + "__Quantity").value;
-        var unitPrice = document.getElementById("unitPrice-" + index).value;
-
-        var totalPriceField = document.getElementById("totalPrice-" + index);
-        var hiddenTotalPrice = document.getElementById("hiddenTotalPrice-" + index);
-
-        var total = (quantity * unitPrice).toFixed(2);
-
-        totalPriceField.value = total;
-        hiddenTotalPrice.value = total;
-    }
-</script>
-
-<style>
-    /* Container and Card Styling */
-    .edit-order-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #f8f9fa;
-    }
-
-    .edit-order-card {
-        width: 700px;
-        padding: 30px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    /* Typography */
-    h2 {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #007bff;
-        margin-bottom: 15px;
-    }
-
-    .form-label {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #495057;
-        text-align: left;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    /* Input Fields */
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        font-size: 1rem;
-        border-radius: 6px;
-        border: 1px solid #ced4da;
-        transition: border-color 0.3s ease-in-out;
-    }
-
-        .form-control:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-        }
-
-    .dropdown {
-        text-align: left;
-    }
-
-    .date-input {
-        text-align: center;
-    }
-
-    /* Table Styling */
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-        .styled-table th, .styled-table td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .styled-table thead {
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-        }
-
-        .styled-table tbody tr:nth-child(even) {
-            background-color: #f2f8ff;
-        }
-
-        .styled-table tbody tr:hover {
-            background-color: #e3f2fd;
-            transition: 0.3s;
-        }
-
-    /* Button Styling */
-    .button-group {
-        margin-top: 20px;
-    }
-
-    .btn {
-        font-size: 1rem;
-        padding: 10px 20px;
-        border-radius: 8px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-        color: white;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-        color: white;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-
-    .divider {
-        margin: 20px 0;
-        border: 0;
-        height: 1px;
-        background: #ddd;
-    }
-</style>
