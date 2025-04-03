@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<CustomerDto>
 
+@if(Model.Any() && @ViewData["User"]=="Admin"){
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="text-uppercase fw-bold text-light">Customer List</h2>
@@ -45,3 +46,43 @@
         }
     </div>
 </div>
+}
+
+@if (Model.Any() && @ViewData["User"] == "Customer")
+{
+    <div class="container mt-4">
+
+        <div class="row">
+            @foreach (var customer in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <!-- Card -->
+                    <div class="card shadow-sm border-0"
+                         style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease-in-out;">
+                        <div class="card-body text-center">
+                            <!-- Customer Name -->
+                            <h5 class="card-title fw-bold" style="color: white;">@customer.Name</h5>
+
+                            <!-- Last Order Date -->
+                            <p class="text-light">Last Order: @(customer.LastOrderDate?.ToString("yyyy-MM-dd") ?? "No Orders Yet")</p>
+                            <p class="text-light">Order Price: @customer.LastOrderPrice.ToString("C")</p>
+
+                            <!-- View, Edit, Delete Buttons -->
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="@Url.Action("Details", "CustomerPage", new { id = customer.CustomerId })" class="btn btn-info btn-sm"
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                    View
+                                </a>
+                                <a href="@Url.Action("Edit", "CustomerPage", new { id = customer.CustomerId })" class="btn btn-warning btn-sm"
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                    Edit
+                                </a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

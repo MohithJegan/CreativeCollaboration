@@ -282,7 +282,7 @@ namespace CreativeCollaboration.Services
 
         public async Task<IEnumerable<MovieDto>> ListMoviesForCustomer(int id)
         {
-            // join MovieActor on movies.movieid = MovieActor.movieid WHERE MovieActor.actorid = {id}
+            // join MovieCustomer on movies.movieid = MovieCustomer.movieid WHERE MovieCustomer.actorid = {id}
             List<Movie> Movies = await _context.Movies
                 .Include(m => m.Studio)
                 .Where(m => m.Customers.Any(c => c.CustomerId == id))

@@ -44,6 +44,9 @@ namespace CreativeCollaboration.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
         public DateOnly? LastOrderDate { get; set; }
 
         public float LastOrderPrice { get; set; }
@@ -63,5 +66,8 @@ namespace CreativeCollaboration.Models
         [Phone]
         [StringLength(15, ErrorMessage = "Phone number cannot exceed 15 characters.")]
         public string Phone { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
     }
 }

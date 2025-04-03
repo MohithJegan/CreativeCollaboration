@@ -3,6 +3,7 @@ using CreativeCollaboration.Interfaces;
 using CreativeCollaboration.Models.ViewModels;
 using CreativeCollaboration.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace CreativeCollaboration.Controllers
 {
@@ -12,15 +13,19 @@ namespace CreativeCollaboration.Controllers
         private readonly IStudioService _studioService;
         private readonly IActorService _actorService;
         private readonly ICustomerService _customerService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         // dependency injection of service interface
-        public MoviePageController(IMovieService MovieService, IStudioService StudioService, IActorService ActorService, ICustomerService CustomerService)
+        public MoviePageController(IMovieService MovieService, IStudioService StudioService, IActorService ActorService, ICustomerService CustomerService, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
 
             _movieService = MovieService;
             _studioService = StudioService;
             _actorService = ActorService;
             _customerService = CustomerService;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index()
         {
@@ -32,6 +37,9 @@ namespace CreativeCollaboration.Controllers
         // GET: MoviePage/List
         public async Task<IActionResult> List()
         {
+            IdentityUser? User = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            bool isCustomer = await _userManager.IsInRoleAsync(User, "Customer");
+            ViewData["User"] = isCustomer ? "Customer" : "Admin";
             IEnumerable<MovieDto?> MovieDtos = await _movieService.ListMovies();
             return View(MovieDtos);
         }
@@ -47,13 +55,16 @@ namespace CreativeCollaboration.Controllers
             IEnumerable<StudioDto> Studio = await _studioService.ListStudioForMovie(id);
             IEnumerable<CustomerDto> AssociatedCustomers = await _customerService.ListCustomersForMovie(id);
             IEnumerable<CustomerDto> Customers = await _customerService.ListCustomers();
-
+            IdentityUser? User = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+      
             if (MovieDto == null)
             {
                 return View("Error", new ErrorViewModel() { Errors = ["Could not find Movie"] });
             }
             else
             {
+                bool isCustomer = await _userManager.IsInRoleAsync(User, "Customer");
+                ViewData["User"] = isCustomer ? "Customer" : "Admin";
                 // information which drives a Movie page
                 MovieDetails MovieInfo = new MovieDetails()
                 {

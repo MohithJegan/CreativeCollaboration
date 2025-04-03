@@ -2,42 +2,66 @@
 using CreativeCollaboration.Data;
 using CreativeCollaboration.Interfaces;
 using CreativeCollaboration.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CreativeCollaboration.Services
 {
     public class OrderService : IOrderService
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OrderService(ApplicationDbContext context)
+        public OrderService(ApplicationDbContext context, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
+
 
         public async Task<IEnumerable<OrderDto>> ListOrders()
         {
+            // Get the logged-in user
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
+            if (user == null)
+            {
+                return new List<OrderDto>(); // Return an empty list if the user is not found
+            }
+
+            // Check if the user is a customer
+            bool isCustomer = await _userManager.IsInRoleAsync(user, "Customer");
+
+            // Fetch orders conditionally based on user role
             var orders = await _context.Orders
-                .Include(o => o.Customer)         // Includes Customer details
-                .Include(o => o.OrderItems)       // Includes Order Items
+                .Include(o => o.Customer)        // Includes Customer details
+                .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.MenuItem) // Includes MenuItem inside OrderItems
+                .Where(o => !isCustomer || o.CustomerAccountId == user.Id) // Only filter if user is a customer
                 .ToListAsync();
 
+            // Convert orders to DTOs
             return orders.Select(o => new OrderDto
             {
                 OrderId = o.OrderId,
                 OrderDate = o.OrderDate,
-                CustomerName = o.Customer?.Name ?? "Unknown", // Handles possible null Customer
-                TotalOrderPrice = o.OrderItems.Sum(oi => oi.TotalPrice), // Ensures sum calculation
+                CustomerName = o.Customer?.Name ?? "Unknown",
+                TotalOrderPrice = o.OrderItems.Sum(oi => oi.TotalPrice),
                 OrderItems = o.OrderItems.Select(oi => new OrderItemDto
                 {
                     OrderItemId = oi.OrderItemId,
-                    MenuItemName = oi.MenuItem?.MName ?? "Unknown", // Handles null MenuItem
+                    MenuItemName = oi.MenuItem?.MName ?? "Unknown",
                     Quantity = oi.Quantity,
                     UnitPrice = oi.UnitOrderItemPrice,
                     TotalPrice = oi.TotalPrice
                 }).ToList()
             }).ToList();
         }
+
+
+
+
 
         public async Task<IEnumerable<OrderDto>> ListOrdersByCustomerId(int customerId)
         {

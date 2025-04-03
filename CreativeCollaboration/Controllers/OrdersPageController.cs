@@ -9,6 +9,8 @@ using Restaurant.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace CreativeCollaboration.Controllers
 {
@@ -18,14 +20,18 @@ namespace CreativeCollaboration.Controllers
         private readonly ICustomerService _customerService;
         private readonly IOrderItemService _orderItemService;
         private readonly IMenuItemService _menuItemService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public OrdersPageController(IOrderService orderService, ICustomerService customerService, IOrderItemService orderItemService,
-    IMenuItemService menuItemService)
+    IMenuItemService menuItemService, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _orderService = orderService;
             _customerService = customerService;
             _orderItemService = orderItemService;
             _menuItemService = menuItemService;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // ✅ GET: OrdersPage/List
@@ -33,13 +39,27 @@ namespace CreativeCollaboration.Controllers
         public async Task<IActionResult> List()
         {
             IEnumerable<OrderDto> orders = await _orderService.ListOrders();
-            return View(orders);
+            IdentityUser? User = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            if (User != null)
+            {
+                bool isCustomer = await _userManager.IsInRoleAsync(User, "Customer");
+                ViewData["User"] = isCustomer ? "Customer" : "Admin";
+                return View(orders);
+            }
+            else
+            {
+                return View("Error", new ErrorViewModel() { Errors = ["Please register to our application"] });
+            }
+           
         }
 
         // ✅ GET: OrdersPage/Details/{id}
         [HttpGet("Orders/Details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
+            IdentityUser? User = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            bool isCustomer = await _userManager.IsInRoleAsync(User, "Customer");
+            ViewData["User"] = isCustomer ? "Customer" : "Admin";
             OrderDto? order = await _orderService.FindOrder(id);
             if (order == null)
             {

@@ -1,61 +1,112 @@
 ﻿@model IEnumerable<OrderDto>
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-light">Orders</h2>
-        <a asp-action="Add" class="btn btn-primary shadow-sm px-4 py-2"
-           style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
-            Create New Order
-        </a>
-    </div>
+@if (@ViewData["User"] == "Admin") {
 
-    <!-- Table -->
-    <div class="table-responsive">
-        <table class="table table-borderless shadow-lg rounded-3 overflow-hidden"
-               style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-            <thead>
-                <tr>
-                    <th class="p-3 text-center text-light">Order ID</th>
-                    <th class="p-3 text-center text-light">Order Date</th>
-                    <th class="p-3 text-center text-light">Customer</th>
-                    <th class="p-3 text-center text-light">Total Price</th>
-                    <th class="p-3 text-center text-light">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var order in Model)
-                {
-                    <tr class="align-middle"
-                        style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
-                        <td class="p-3 text-center fw-semibold text-light">@order.OrderId</td>
-                        <td class="p-3 text-center fw-semibold text-light">@order.OrderDate.ToString("yyyy-MM-dd")</td>
-                        <td class="p-3 text-center fw-semibold text-light">@order.CustomerName</td>
-                        <td class="p-3 text-center fw-semibold text-light">@order.TotalOrderPrice.ToString("C")</td>
-                        <td class="p-3 text-center">
-                            <!-- View Button -->
-                            <a asp-action="Details" asp-route-id="@order.OrderId"
-                               class="btn btn-outline-info btn-sm me-2"
-                               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
-                                View
-                            </a>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-light">Orders</h2>
+            <a asp-action="Add" class="btn btn-primary shadow-sm px-4 py-2"
+               style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                Create New Order
+            </a>
+        </div>
 
-                            <!-- Edit Button -->
-                            <a asp-action="Edit" asp-route-id="@order.OrderId"
-                               class="btn btn-outline-warning btn-sm me-2"
-                               style="background: rgba(255, 255, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
-                                Edit
-                            </a>
-
-                            <!-- Delete Button -->
-                            <a asp-action="Delete" asp-route-id="@order.OrderId"
-                               class="btn btn-outline-danger btn-sm"
-                               style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
-                                Delete
-                            </a>
-                        </td>
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-borderless shadow-lg rounded-3 overflow-hidden"
+                   style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <thead>
+                    <tr>
+                        <th class="p-3 text-center text-light">Order ID</th>
+                        <th class="p-3 text-center text-light">Order Date</th>
+                        <th class="p-3 text-center text-light">Customer</th>
+                        <th class="p-3 text-center text-light">Total Price</th>
+                        <th class="p-3 text-center text-light">Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr class="align-middle"
+                            style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                            <td class="p-3 text-center fw-semibold text-light">@order.OrderId</td>
+                            <td class="p-3 text-center fw-semibold text-light">@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                            <td class="p-3 text-center fw-semibold text-light">@order.CustomerName</td>
+                            <td class="p-3 text-center fw-semibold text-light">@order.TotalOrderPrice.ToString("C")</td>
+                            <td class="p-3 text-center">
+                                <!-- View Button -->
+                                <a asp-action="Details" asp-route-id="@order.OrderId"
+                                   class="btn btn-outline-info btn-sm me-2"
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                    View
+                                </a>
+
+                                <!-- Edit Button -->
+                                <a asp-action="Edit" asp-route-id="@order.OrderId"
+                                   class="btn btn-outline-warning btn-sm me-2"
+                                   style="background: rgba(255, 255, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                    Edit
+                                </a>
+
+                                <!-- Delete Button -->
+                                <a asp-action="Delete" asp-route-id="@order.OrderId"
+                                   class="btn btn-outline-danger btn-sm"
+                                   style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+}
+
+
+@if (@ViewData["User"] == "Customer")
+{
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-light">Orders</h2>
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-borderless shadow-lg rounded-3 overflow-hidden"
+                   style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <thead>
+                    <tr>
+                        <th class="p-3 text-center text-light">Order ID</th>
+                        <th class="p-3 text-center text-light">Order Date</th>
+                        <th class="p-3 text-center text-light">Customer</th>
+                        <th class="p-3 text-center text-light">Total Price</th>
+                        <th class="p-3 text-center text-light">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr class="align-middle"
+                            style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                            <td class="p-3 text-center fw-semibold text-light">@order.OrderId</td>
+                            <td class="p-3 text-center fw-semibold text-light">@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                            <td class="p-3 text-center fw-semibold text-light">@order.CustomerName</td>
+                            <td class="p-3 text-center fw-semibold text-light">@order.TotalOrderPrice.ToString("C")</td>
+                            <td class="p-3 text-center">
+                                <!-- View Button -->
+                                <a asp-action="Details" asp-route-id="@order.OrderId"
+                                   class="btn btn-outline-info btn-sm me-2"
+                                   style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+

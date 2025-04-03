@@ -1,102 +1,87 @@
 ﻿@model CustomerDto
 
-<div class="delete-customer-container">
-    <div class="delete-customer-card">
-        <h2 class="text-center">Confirm Deletion</h2>
+@{
+    ViewData["Title"] = "Confirm Delete";
+}
 
-        <p class="text-primary text-center"><strong>Name:</strong> @Model.Name</p>
-        <p class="text-center"><strong>Email:</strong> @Model.Email</p>
-        <p class="text-center"><strong>Phone:</strong> @Model.Phone</p>
+<div class="container mt-4">
+    <!-- Card -->
+    <div class="card shadow-lg border-0 rounded-4"
+         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+        <!-- Card Header -->
+        <div class="card-header text-center"
+             style="background: rgba(255, 0, 0, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+            <h3 class="mb-0 text-light">Confirm Deletion</h3>
+        </div>
 
-        @if (Model.LastOrderDate.HasValue)
-        {
-            <p class="text-warning text-center">
-                This customer has past orders. Deleting this customer will remove all their order history permanently.
-            </p>
-        }
+        <!-- Card Body -->
+        <div class="card-body">
+            <h5 class="text-center text-light">Are you sure you want to delete this customer?</h5>
+            <p class="text-center text-muted">This action cannot be undone.</p>
 
-        <div class="button-group">
-            <form method="post" asp-action="DeleteCustomer" asp-route-id="@Model.CustomerId">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                <a asp-action="List" class="btn btn-secondary">Cancel</a>
-            </form>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="table table-borderless"
+                               style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                            <tbody>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Name</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.Name)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Email</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.Email)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Phone</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.Phone)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">City</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.City)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">State</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.State)</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-light" style="background: rgba(255, 255, 255, 0.1);">Country</th>
+                                    <td class="text-light">@Html.DisplayFor(model => model.Country)</td>
+                                </tr>
+                                @if (Model.LastOrderDate.HasValue)
+                                {
+                                    <tr>
+                                        <td colspan="2" class="text-warning text-center">
+                                            This customer has past orders. Deleting this customer will remove all their order history permanently.
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Buttons -->
+                    <form method="post" asp-action="DeleteCustomer" asp-route-id="@Model.CustomerId" class="text-center mt-4">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger px-4"
+                                style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                            Delete
+                        </button>
+                        <a asp-action="List" class="btn btn-secondary px-4"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                            Cancel
+                        </a>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<style>
-    /* Container and Card Styling */
-    .delete-customer-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f8f9fa;
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
-    .delete-customer-card {
-        width: 450px;
-        padding: 30px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    /* Typography */
-    h2 {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .text-primary {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #007bff;
-    }
-
-    .text-warning {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #dc3545;
-    }
-
-    /* Buttons */
-    .button-group {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .btn {
-        font-size: 1rem;
-        padding: 12px 24px;
-        border-radius: 8px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn-danger {
-        background-color: #dc3545;
-        border: none;
-        color: white;
-    }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-            transform: translateY(-2px);
-        }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-        color: white;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-</style>
+}

@@ -21,13 +21,14 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "GET" https://localhost:7129/api/Movies/List
 
         /// <summary>
-        /// Returns a list of Movies
+        /// Returns a list of Movies. Administrator and Customers can access.
         /// </summary>
         /// <returns>
         /// 200 OK
         /// [{MovieDto},{MovieDto},..]
         /// </returns>
         /// <example>
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// GET: api/Movies/List -> [{MovieDto},{MovieDto},..]
         /// </example>
 
@@ -45,7 +46,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "GET" https://localhost:7129/api/Movies/Find/2
 
         /// <summary>
-        /// Returns a single Movie specified by its {id}
+        /// Returns a single Movie specified by its {id}. Administrator and Customers can access.
         /// </summary>
         /// <param name="id">The movie id</param>
         /// <returns>
@@ -55,6 +56,7 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found
         /// </returns>
         /// <example>
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// GET: api/Movies/Find/2 -> {MovieDto}
         /// </example>
 
@@ -79,7 +81,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "PUT" -H "Content-Type:application/json" -d @movie.json https://localhost:7129/api/Movies/Update/9
 
         /// <summary>
-        /// Updates a Movie
+        /// Updates a Movie. Administrator only.
         /// </summary>
         /// <param name="id">The ID of the movie to update</param>
         /// <param name="MovieDto">The required information to update the movie (MovieName, MovieTitle, MovieDescription)</param>
@@ -92,6 +94,7 @@ namespace CreativeCollaboration.Controllers
         /// </returns>
         /// <example>
         /// PUT: api/Movies/Update/5
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// Request Headers: Content-Type: application/json
         /// Request Body: {MovieDto}
         /// ->
@@ -128,7 +131,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "POST" -H "Content-Type: application/json" -d @movie.json "https://localhost:7129/api/Movies/Add"
 
         /// <summary>
-        /// Adds a Movie
+        /// Adds a Movie. Administrator only.
         /// </summary>
         /// <param name="MovieDto">The required information to add the movie (MovieName, MovieTitle, MovieDescription)</param>
         /// <returns>
@@ -140,6 +143,7 @@ namespace CreativeCollaboration.Controllers
         /// </returns>
         /// <example>
         /// POST: api/Movies/Add
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// Request Headers: Content-Type: application/json
         /// Request Body: {MovieDto}
         /// ->
@@ -170,7 +174,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "DELETE" https://localhost:7129/api/Movies/Delete/9
 
         /// <summary>
-        /// Deletes the Movie
+        /// Deletes the Movie. Administrator only.
         /// </summary>
         /// <param name="id">The id of the movie to delete</param>
         /// <returns>
@@ -180,6 +184,7 @@ namespace CreativeCollaboration.Controllers
         /// </returns>
         /// <example>
         /// DELETE: api/Movies/Delete/9
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// ->
         /// Response Code: 204 No Content
         /// </example>
@@ -207,7 +212,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "GET" https://localhost:7129/api/Movies/ListMoviesForActor/1
 
         /// <summary>
-        /// Returns a list of movies for a specific actor by its {id}
+        /// Returns a list of movies for a specific actor by its {id}. Administrator only.
         /// </summary>
         /// <param name="id">The ID of the actor</param>
         /// <returns>
@@ -215,6 +220,7 @@ namespace CreativeCollaboration.Controllers
         /// [{MovieDto},{MovieDto},..]
         /// </returns>
         /// <example>
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// GET: api/Movies/ListMoviesForActor/1 -> [{MovieDto},{MovieDto},..]
         /// </example>
 
@@ -231,7 +237,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "GET" https://localhost:7129/api/Movies/ListMoviesForStudio/3
 
         /// <summary>
-        /// Returns a list of movies for a specific studio by its {id}
+        /// Returns a list of movies for a specific studio by its {id}. Administrator only.
         /// </summary>
         /// <param name="id">The ID of the studio</param>
         /// <returns>
@@ -239,6 +245,7 @@ namespace CreativeCollaboration.Controllers
         /// [{MovieDto},{MovieDto},..]
         /// </returns>
         /// <example>
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// GET: api/Movies/ListMoviesForStudio/3 -> [{MovieDto},{MovieDto},..]
         /// </example>
 
@@ -256,7 +263,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "GET" https://localhost:7129/api/Movies/ListMoviesForActor/1
 
         /// <summary>
-        /// Returns a list of movies for a specific actor by its {id}
+        /// Returns a list of movies for a specific actor by its {id}. Administrator only.
         /// </summary>
         /// <param name="id">The ID of the actor</param>
         /// <returns>
@@ -264,6 +271,7 @@ namespace CreativeCollaboration.Controllers
         /// [{MovieDto},{MovieDto},..]
         /// </returns>
         /// <example>
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// GET: api/Movies/ListMoviesForActor/1 -> [{MovieDto},{MovieDto},..]
         /// </example>
 
@@ -282,7 +290,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "POST" "https://localhost:7129/api/Movies/Link?movieId=2&actorId=3"
 
         /// <summary>
-        /// Links a movie from an actor
+        /// Links a movie from an actor. Administrator only.
         /// </summary>
         /// <param name="movieId">The id of the movie</param>
         /// <param name="actorId">The id of the actor</param>
@@ -292,6 +300,7 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found
         /// </returns>
         /// <example>
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// Post: api/Movies/Link?movieId=2&actorId=3
         /// ->
         /// Response Code: 204 No Content
@@ -319,7 +328,7 @@ namespace CreativeCollaboration.Controllers
         /// curl -X "DELETE" "https://localhost:7129/api/Movies/Unlink?movieId=2&actorId=3"
 
         /// <summary>
-        /// Unlinks a movie from an actor
+        /// Unlinks a movie from an actor. Administrator only.
         /// </summary>
         /// <param name="movieId">The id of the movie</param>
         /// <param name="actorId">The id of the actor</param>
@@ -329,6 +338,7 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found
         /// </returns>
         /// <example>
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// Delete: api/Movies/Unlink?movieId=2&actorId=3
         /// ->
         /// Response Code: 204 No Content
@@ -356,10 +366,10 @@ namespace CreativeCollaboration.Controllers
 
 
 
-        /// curl -X "POST" "https://localhost:7129/api/Movies/Link?movieId=2&actorId=3"
+        /// curl -X "POST" "https://localhost:7129/api/Movies/Link?movieId=2&customerId=3"
 
         /// <summary>
-        /// Links a movie from an actor
+        /// Links a movie from an customer. Administrator only.
         /// </summary>
         /// <param name="movieId">The id of the movie</param>
         /// <param name="customerId">The id of the customer</param>
@@ -369,7 +379,8 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found
         /// </returns>
         /// <example>
-        /// Post: api/Movies/Link?movieId=2&actorId=3
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
+        /// Post: api/Movies/Link?movieId=2&customerId=3
         /// ->
         /// Response Code: 204 No Content
         /// </example>
@@ -393,10 +404,10 @@ namespace CreativeCollaboration.Controllers
 
         }
 
-        /// curl -X "DELETE" "https://localhost:7129/api/Movies/Unlink?movieId=2&actorId=3"
+        /// curl -X "DELETE" "https://localhost:7129/api/Movies/Unlink?movieId=2&customerId=3"
 
         /// <summary>
-        /// Unlinks a movie from an actor
+        /// Unlinks a movie from an customer. Administrator only.
         /// </summary>
         /// <param name="movieId">The id of the movie</param>
         /// <param name="customerId">The id of the customer</param>
@@ -406,7 +417,8 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found
         /// </returns>
         /// <example>
-        /// Delete: api/Movies/Unlink?movieId=2&actorId=3
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
+        /// Delete: api/Movies/Unlink?movieId=2&customerId=3
         /// ->
         /// Response Code: 204 No Content
         /// </example>

@@ -2,16 +2,21 @@
 using CreativeCollaboration.Data;
 using CreativeCollaboration.Interfaces;
 using CreativeCollaboration.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Restaurant.Services
 {
     public class MenuItemService : IMenuItemService
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public MenuItemService(ApplicationDbContext context)
+        public MenuItemService(ApplicationDbContext context, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IEnumerable<MenuItemDto>> ListMenuItems()

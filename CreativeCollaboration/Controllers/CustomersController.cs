@@ -32,7 +32,7 @@ namespace CreativeCollaboration.Controllers
 
 
         /// <summary>
-        /// Returns a list of Customers 
+        /// Gets a list of customers in the system. Administrator only.
         /// </summary>
         /// <returns>
         /// 200 Ok
@@ -40,6 +40,7 @@ namespace CreativeCollaboration.Controllers
         /// </returns>
         /// <example>
         /// GET: api/Customers/List -> [{CustomerId: 1, Name: "Himani", LastOrderDate: "2025-01-01", LastOrderPrice:30},{....},{....}]
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// </example>
         [HttpGet(template: "List")]
         [Authorize(Roles="admin")]
@@ -76,9 +77,9 @@ namespace CreativeCollaboration.Controllers
 
 
         /// <summary>
-        /// Return a Customer specified by it's {id}
+        /// Finds a customer in the system. Administrators can access any customer.
         /// </summary>
-        /// /// <param name="id">Customer's id</param>
+        /// <param name="id">Customer's id</param>
         /// <returns>
         /// 200 Ok
         /// CustomerDto : It includes Customer including ID, Name, Last Order Date and Last Order Price.
@@ -86,6 +87,7 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found when there is no Customer for that {id}
         /// </returns>
         /// <example>
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// GET: api/Customers/Find/1 -> {CustomerId: 1, Name: "Himani", LastOrderDate: "2025-01-01", LastOrderPrice:30}
         [HttpGet(template: "Find/{id}")]
         [Authorize(Roles = "admin")]
@@ -121,7 +123,7 @@ namespace CreativeCollaboration.Controllers
 
 
         /// <summary>
-        /// It updates a Customer
+        /// Updates a Customer record. Administrator only.
         /// </summary>
         /// <param name="id">The ID of the Customer to update</param>
         /// <param name="updateCustomerDto">The required information to update the Customer</param>
@@ -131,7 +133,14 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found
         /// or
         /// 204 No Content
-        /// </returns>       
+        /// </returns>  
+        /// <example>
+        /// PUT: api/Customer/Update/5
+        /// Request Headers: Content-Type: application/json, cookie: .AspNetCore.Identity.Application={token}
+        /// Request Body: {CustomerDto}
+        /// ->
+        /// Response Code: 204 No Content
+        /// </example>
         [HttpPut(template: "Update/{id}")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateCustomer(int id, AUCustomerDto updateCustomerDto)
@@ -174,7 +183,7 @@ namespace CreativeCollaboration.Controllers
         }
 
         /// <summary>
-        /// Adds a Customer to the Customers table
+        /// Adds a Customer to the Customers table. Administrator only. 
         /// </summary>
         /// <remarks>
         /// Adds a Customer using AUCustomerDto as input, and returns the added Customer details.
@@ -187,6 +196,11 @@ namespace CreativeCollaboration.Controllers
         /// </returns>
         /// <example>
         /// api/Customers/Add -> Adds a new Customer 
+        /// Request Headers: Content-Type: application/json, cookie: .AspNetCore.Identity.Application={token}
+        /// Request Body: {CustomerDto}
+        /// ->
+        /// Response Code: 201 Created
+        /// Response Headers: Location: api/Customer/Find/{CustomerId}
         /// </example>
         [HttpPost(template: "Add")]
         [Authorize(Roles = "admin")]
@@ -219,7 +233,7 @@ namespace CreativeCollaboration.Controllers
         }
 
         /// <summary>
-        /// Delete a Customer specified by it's {id}
+        /// Delete a Customer specified by it's {id}. Administrator only.
         /// </summary>
         /// <param name="id">The id of the Customer we want to delete</param>
         /// <returns>
@@ -229,6 +243,9 @@ namespace CreativeCollaboration.Controllers
         /// </returns>
         /// <example>
         /// api/Customer/Delete/{id} -> Deletes the Customer associated with {id}
+        /// Headers: cookie: .AspNetCore.Identity.Application={token}
+        /// ->
+        /// Response Code: 204 No Content
         /// </example>
         [HttpDelete(template: "Delete/{id}")]
         [Authorize(Roles = "admin")]
@@ -252,18 +269,20 @@ namespace CreativeCollaboration.Controllers
         }
 
 
-        /// curl -X "GET" https://localhost:7129/api/Actors/ListActorsForMovie/2
+        /// curl -X "GET" https://localhost:7129/api/Customer/ListCustomersForMovie/2
 
         /// <summary>
-        /// Returns a list of actors for a specific movie by its {id}
+        /// Returns a list of customers for a specific movie by its {id}. Administrator only.
         /// </summary>
         /// <param name="id">The ID of the movie</param>
         /// <returns>
         /// 200 OK
-        /// [{ActorDto},{ActorDto},..]
+        /// [{CustomerDto},{CustomerDto},..]
         /// </returns>
         /// <example>
-        /// GET: api/Actors/ListActorsForMovie/1 -> [{ActorDto},{ActorDto},..]
+        /// GET: api/Customer/ListActorsForMovie/1 -> [{CustomerDto},{CustomerDto},..]
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
+        /// -> [{CustomerDto},{CustomerDto},..]
         /// </example>
 
         [HttpGet(template: "ListCustomersForMovie/{id}")]
@@ -278,10 +297,10 @@ namespace CreativeCollaboration.Controllers
         }
 
 
-        /// curl -X "POST" "https://localhost:7129/api/Movies/Link?actorId=2movieId=2"
+        /// curl -X "POST" "https://localhost:7129/api/Customers/Link?customerId=2movieId=2"
 
         /// <summary>
-        /// Links a movie from an actor
+        /// Links a movie from an actor. Administrator only.
         /// </summary>
         /// <param name="customerId">The id of the customer</param>
         /// <param name="movieId">The id of the movie</param>
@@ -291,7 +310,8 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found
         /// </returns>
         /// <example>
-        /// Post: api/Movies/Link?movieId=2&actorId=3
+        /// Post: api/Customers/Link?customerId=2&actorId=3
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// ->
         /// Response Code: 204 No Content
         /// </example>
@@ -315,10 +335,10 @@ namespace CreativeCollaboration.Controllers
 
         }
 
-        /// curl -X "DELETE" "https://localhost:7129/api/Actors/Unlink?&actorId=2movieId=2"
+        /// curl -X "DELETE" "https://localhost:7129/api/Customers/Unlink?&customerId=2movieId=2"
 
         /// <summary>
-        /// Unlinks a movie from an actor
+        /// Unlinks a movie from an customer.  Administrator only.
         /// </summary>
         /// <param name="customerId">The id of the customer</param>
         /// <param name="movieId">The id of the movie</param>
@@ -328,7 +348,8 @@ namespace CreativeCollaboration.Controllers
         /// 404 Not Found
         /// </returns>
         /// <example>
-        /// Delete: api/Movies/Unlink?movieId=2&actorId=3
+        /// Delete: api/Customers/Unlink?customerId=2&actorId=3
+        /// HEADERS: Cookie: .AspNetCore.Identity.Application={token}
         /// ->
         /// Response Code: 204 No Content
         /// </example>
@@ -352,7 +373,19 @@ namespace CreativeCollaboration.Controllers
 
         }
 
+        /// curl -X "DELETE" "https://localhost:7129/api/Customers/Profile"
 
+        /// <summary>
+        /// Gets a single customer's profile (based on their logged in information)
+        /// </summary>
+        /// <returns>
+        /// CustomerDto
+        /// </returns>
+        /// <example>
+        /// GET: api/Customer/Profile
+        ///  HEADERS: Cookie: .AspNetCore.Identity.Application={token}
+        /// -> {CustomerDto}
+        /// </example>
 
         [HttpGet(template: "Profile")]
         [Authorize(Roles = "admin,customer")]
