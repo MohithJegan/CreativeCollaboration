@@ -5,6 +5,8 @@ using CreativeCollaboration.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Mono.TextTemplating;
+using System.Diagnostics.Metrics;
 
 namespace CreativeCollaboration.Services
 {
@@ -21,39 +23,13 @@ namespace CreativeCollaboration.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        //public async Task<IEnumerable<CustomerDto>> ListCustomers()
-        //{
-
-        //    List<Customer> customers = await _context.Customers
-        //        .Include(c => c.Orders)
-        //        .ThenInclude(o => o.OrderItems)
-        //        .ToListAsync(); // ✅ Convert to List first
-
-        //    List<CustomerDto> customerDtos = new();
-
-        //    foreach (Customer customer in customers)
-        //    {
-        //        var lastOrder = customer.Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault();
-
-        //        customerDtos.Add(new CustomerDto()
-        //        {
-        //            CustomerId = customer.CustomerId,
-        //            Name = customer.Name,
-        //            LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null, // ✅ Fixed nullable issue
-        //            LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
-        //                             ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
-        //                             : 0
-        //        });
-        //    }
-
-        //    return customerDtos;
-        //}
-
+        
         public async Task<IEnumerable<CustomerDto>> ListCustomers()
         {
             // user manager over database context
-            //IEnumerable<IdentityUser> Users = await _userManager.GetUsersInRoleAsync("Customer");
             IdentityUser? Users = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            bool isCustomer = await _userManager.IsInRoleAsync(Users, "Customer");
+            var LoggedInUser = isCustomer ? "Customer" : "Admin";
             //Debug.WriteLine("Logged In", Users.Email);
 
             List<Customer> customers = await _context.Customers
@@ -65,7 +41,7 @@ namespace CreativeCollaboration.Services
             if(Users!= null)
             {
                 // Admin to see all the customers
-                if (Users.Email == "mohith@test.ca")
+                if (LoggedInUser == "Admin")
                 {
                     foreach (Customer customer in customers)
                     {
@@ -75,6 +51,9 @@ namespace CreativeCollaboration.Services
                         {
                             CustomerId = customer.CustomerId,
                             Name = customer.Name,
+                            City = customer.City,
+                            State = customer.State,
+                            Country = customer.Country,
                             LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null, // ✅ Fixed nullable issue
                             LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
                                              ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
@@ -97,6 +76,9 @@ namespace CreativeCollaboration.Services
                             {
                                 CustomerId = customer.CustomerId,
                                 Name = customer.Name,
+                                City = customer.City,
+                                State = customer.State,
+                                Country = customer.Country,
                                 LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null, // ✅ Fixed nullable issue
                                 LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
                                              ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
@@ -136,6 +118,9 @@ namespace CreativeCollaboration.Services
                 Name = customer.Name,
                 Email = customer.Email ?? "",
                 Phone = customer.Phone ?? "",
+                City = customer.City,
+                State = customer.State,
+                Country = customer.Country,
                 LastOrderDate = lastOrder != null ? (DateOnly?)lastOrder.OrderDate : null,
                 LastOrderPrice = lastOrder != null && lastOrder.OrderItems != null
                                  ? lastOrder.OrderItems.Sum(oi => oi.TotalPrice)
@@ -165,6 +150,9 @@ namespace CreativeCollaboration.Services
             customer.Name = updateCustomerDto.Name;
             customer.Email = updateCustomerDto.Email;
             customer.Phone = updateCustomerDto.Phone;
+            customer.City = updateCustomerDto.City;
+            customer.State = updateCustomerDto.State;
+            customer.Country = updateCustomerDto.Country;
 
             _context.Entry(customer).State = EntityState.Modified;
 
@@ -207,7 +195,11 @@ namespace CreativeCollaboration.Services
             {
                 Name = addCustomerDto.Name,
                 Email = addCustomerDto.Email,
-                Phone = addCustomerDto.Phone
+                Phone = addCustomerDto.Phone,
+                City = addCustomerDto.City,
+                State = addCustomerDto.State,
+                Country = addCustomerDto.Country,
+                
             };
 
             try
@@ -263,28 +255,31 @@ namespace CreativeCollaboration.Services
 
         public async Task<IEnumerable<CustomerDto>> ListCustomersForMovie(int id)
         {
-            // join ActorMovie on actors.actorid = ActorMovie.actorid WHERE ActorMovie.movieid = {id}
+            // join CustomerrMovie on customer.customerid = CustomerMovie.customerid WHERE CustomerMovie.movieid = {id}
             List<Customer> Customers = await _context.Customers
                 .Where(c => c.Movies.Any(m => m.MovieID == id))
                 .ToListAsync();
 
-            // empty list of data transfer object ActorDto
+            // empty list of data transfer object CustomerDto
             List<CustomerDto> CustomerDtos = new List<CustomerDto>();
 
-            // foreach Actor Item record in database
+            // foreach Customer Item record in database
             foreach (Customer Customer in Customers)
             {
-                // create new instance of ActorDto, add to list
+                // create new instance of CustomerDto, add to list
                 CustomerDtos.Add(new CustomerDto()
                 {
                     CustomerId = Customer.CustomerId,
                     Name = Customer.Name,
                     Email = Customer.Email,
                     Phone = Customer.Phone,
+                    City = Customer.City,
+                    State = Customer.State,
+                    Country = Customer.Country,
                 });
             }
 
-            // return ActorDtos
+            // return CustomerDtos
             return CustomerDtos;
 
         }

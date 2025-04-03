@@ -1,74 +1,153 @@
 ﻿@model CreativeCollaboration.Models.ViewModels.OrderDetailsViewModel
 
-<div class="container mt-4">
-    <h2 class="fw-bold text-light">Order Details</h2>
+@if (@ViewData["User"] == "Admin") {
+    <div class="container mt-4">
+        <h2 class="fw-bold text-light">Order Details</h2>
 
-    <!-- Card -->
-    <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
-         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-        <div class="card-body">
-            <h5 class="fw-bold text-light">Basic Information</h5>
-            <hr style="border-color: rgba(255, 255, 255, 0.2);">
+        <!-- Card -->
+        <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
+             style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="card-body">
+                <h5 class="fw-bold text-light">Basic Information</h5>
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
 
-            <p class="text-light"><strong>Order ID:</strong> @Model.OrderId</p>
-            <p class="text-light"><strong>Order Date:</strong> @Model.OrderDate.ToString("yyyy-MM-dd")</p>
-            <p class="text-light"><strong>Customer Name:</strong> @Model.CustomerName</p>
-            <p class="text-light"><strong>Total Price:</strong> @Model.TotalOrderPrice.ToString("C")</p>
+                <p class="text-light"><strong>Order ID:</strong> @Model.OrderId</p>
+                <p class="text-light"><strong>Order Date:</strong> @Model.OrderDate.ToString("yyyy-MM-dd")</p>
+                <p class="text-light"><strong>Customer Name:</strong> @Model.CustomerName</p>
+                <p class="text-light"><strong>Total Price:</strong> @Model.TotalOrderPrice.ToString("C")</p>
+            </div>
         </div>
-    </div>
 
-    <!-- Card for Order Items -->
-    <div class="card border-0 shadow-lg rounded-4 p-4 mt-4"
-         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-        <div class="card-body">
-            <h5 class="fw-bold text-light">Order Items</h5>
-            <hr style="border-color: rgba(255, 255, 255, 0.2);">
+        <!-- Card for Order Items -->
+        <div class="card border-0 shadow-lg rounded-4 p-4 mt-4"
+             style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="card-body">
+                <h5 class="fw-bold text-light">Order Items</h5>
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
 
-            @if (Model.OrderItems.Any())
-            {
-                <div class="table-responsive">
-                    <table class="table table-borderless"
-                           style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-                        <thead>
-                            <tr>
-                                <th class="text-light">Order Item ID</th>
-                                <th class="text-light">Menu Item</th>
-                                <th class="text-light">Unit Price</th>
-                                <th class="text-light">Quantity</th>
-                                <th class="text-light">Total Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.OrderItems)
-                            {
+                @if (Model.OrderItems.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-borderless"
+                               style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                            <thead>
                                 <tr>
-                                    <td class="text-light">@item.OrderItemId</td>
-                                    <td class="text-light">@item.MenuItemName</td>
-                                    <td class="text-light">@item.UnitPrice.ToString("C")</td>
-                                    <td class="text-light">@item.Quantity</td>
-                                    <td class="text-light">@item.TotalPrice.ToString("C")</td>
+                                    <th class="text-light">Order Item ID</th>
+                                    <th class="text-light">Menu Item</th>
+                                    <th class="text-light">Unit Price</th>
+                                    <th class="text-light">Quantity</th>
+                                    <th class="text-light">Total Price</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-            else
-            {
-                <p class="text-muted">No items found for this order.</p>
-            }
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderItems)
+                                {
+                                    <tr>
+                                        <td class="text-light">@item.OrderItemId</td>
+                                        <td class="text-light">@item.MenuItemName</td>
+                                        <td class="text-light">@item.UnitPrice.ToString("C")</td>
+                                        <td class="text-light">@item.Quantity</td>
+                                        <td class="text-light">@item.TotalPrice.ToString("C")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No items found for this order.</p>
+                }
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-4">
+            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.OrderId"
+               style="background: rgba(255, 255, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                Edit
+            </a>
+            <a class="btn btn-secondary ms-2" asp-action="List"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                Back to List
+            </a>
         </div>
     </div>
 
-    <!-- Buttons -->
-    <div class="mt-4">
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.OrderId"
-           style="background: rgba(255, 255, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
-            Edit
-        </a>
-        <a class="btn btn-secondary ms-2" asp-action="List"
-           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
-            Back to List
-        </a>
+}
+
+@if (@ViewData["User"] == "Customer")
+{
+    <div class="container mt-4">
+        <h2 class="fw-bold text-light">Order Details</h2>
+
+        <!-- Card -->
+        <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
+             style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="card-body">
+                <h5 class="fw-bold text-light">Basic Information</h5>
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
+
+                <p class="text-light"><strong>Order ID:</strong> @Model.OrderId</p>
+                <p class="text-light"><strong>Order Date:</strong> @Model.OrderDate.ToString("yyyy-MM-dd")</p>
+                <p class="text-light"><strong>Customer Name:</strong> @Model.CustomerName</p>
+                <p class="text-light"><strong>Total Price:</strong> @Model.TotalOrderPrice.ToString("C")</p>
+            </div>
+        </div>
+
+        <!-- Card for Order Items -->
+        <div class="card border-0 shadow-lg rounded-4 p-4 mt-4"
+             style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="card-body">
+                <h5 class="fw-bold text-light">Order Items</h5>
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
+
+                @if (Model.OrderItems.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-borderless"
+                               style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                            <thead>
+                                <tr>
+                                    <th class="text-light">Order Item ID</th>
+                                    <th class="text-light">Menu Item</th>
+                                    <th class="text-light">Unit Price</th>
+                                    <th class="text-light">Quantity</th>
+                                    <th class="text-light">Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderItems)
+                                {
+                                    <tr>
+                                        <td class="text-light">@item.OrderItemId</td>
+                                        <td class="text-light">@item.MenuItemName</td>
+                                        <td class="text-light">@item.UnitPrice.ToString("C")</td>
+                                        <td class="text-light">@item.Quantity</td>
+                                        <td class="text-light">@item.TotalPrice.ToString("C")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No items found for this order.</p>
+                }
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-4">
+            <a class="btn btn-secondary ms-2" asp-action="List"
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
+                Back to List
+            </a>
+        </div>
     </div>
-</div>
+
+
+}
+
+

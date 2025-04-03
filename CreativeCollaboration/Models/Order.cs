@@ -42,6 +42,8 @@ namespace CreativeCollaboration.Models
 
         public string CustomerName { get; set; }
 
+        public string CustomerAccountId { get; set; } = "";
+
         public float TotalOrderPrice { get; set; }
 
         public decimal LastOrderPrice { get; set; }

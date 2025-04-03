@@ -42,6 +42,8 @@ namespace CreativeCollaboration.Models
         public int MenuItemId { get; set; }
         public int OrderId { get; set; }
 
+        public string CustomerAccountId { get; set; } = "";
+
         public string MenuItemName { get; set; }
 
         public float UnitPrice { get; set; }

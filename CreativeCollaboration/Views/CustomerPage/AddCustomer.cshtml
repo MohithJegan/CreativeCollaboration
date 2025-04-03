@@ -36,6 +36,30 @@
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
 
+    <!-- City -->
+    <div class="form-group mb-3">
+        <label asp-for="City" class="form-label fw-semibold text-light">City:</label>
+        <input asp-for="City" class="form-control" placeholder="Enter customer's city" required
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+
+    <!-- State -->
+    <div class="form-group mb-3">
+        <label asp-for="State" class="form-label fw-semibold text-light">State:</label>
+        <input asp-for="State" class="form-control" placeholder="Enter customer's state" required
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        <span asp-validation-for="State" class="text-danger"></span>
+    </div>
+
+    <!-- Country -->
+    <div class="form-group mb-3">
+        <label asp-for="Country" class="form-label fw-semibold text-light">Country:</label>
+        <input asp-for="Country" class="form-control" placeholder="Enter customer's country" required
+               style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+
     <!-- Submit Button -->
     <div class="form-group mt-3 text-center">
         <button type="submit" class="btn btn-success"

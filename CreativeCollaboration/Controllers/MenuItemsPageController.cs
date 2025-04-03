@@ -5,6 +5,7 @@ using CreativeCollaboration.Interfaces;
 using CreativeCollaboration.Models;
 using CreativeCollaboration.Models.ViewModels;
 using CreativeCollaboration.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace CreativeCollaboration.Controllers
 {
@@ -12,11 +13,15 @@ namespace CreativeCollaboration.Controllers
     public class MenuItemsPageController : Controller
     {
         private readonly IMenuItemService _menuItemService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         // Dependency injection of MenuItemService
-        public MenuItemsPageController(IMenuItemService menuItemService)
+        public MenuItemsPageController(IMenuItemService menuItemService, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _menuItemService = menuItemService;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // Show list of Menu Items on Index page 
@@ -28,8 +33,13 @@ namespace CreativeCollaboration.Controllers
 
         // GET: MenuItemsPage/List
         [HttpGet("List")]
+        [Authorize(Roles ="admin, customer")]
         public async Task<IActionResult> List()
         {
+            IdentityUser? Users = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            bool isCustomer = await _userManager.IsInRoleAsync(Users, "Customer");
+            var LoggedInUser = isCustomer ? "Customer" : "Admin";
+            ViewData["User"] = isCustomer ? "Customer" : "Admin";
             IEnumerable<MenuItemDto> menuItems = await _menuItemService.ListMenuItems();
             return View("List", menuItems);
         }

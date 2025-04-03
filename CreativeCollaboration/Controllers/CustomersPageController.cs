@@ -115,7 +115,10 @@ namespace CreativeCollaboration.Controllers
                 CustomerId = customerDto.CustomerId,
                 Name = customerDto.Name,
                 Email = customerDto.Email,
-                Phone = customerDto.Phone
+                Phone = customerDto.Phone,
+                City = customerDto.City,
+                State = customerDto.State,
+                Country = customerDto.Country,
             };
 
             return View(updateCustomerDto);
@@ -179,8 +182,8 @@ namespace CreativeCollaboration.Controllers
         }
 
 
-        //POST ActorPage/LinkToMovie
-        //DATA: actorId={actorId}&movieId={movieId}
+        //POST CustomerPage/LinkToMovie
+        //DATA: customerId={customerId}&movieId={movieId}
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> LinkToMovie([FromForm] int customerId, [FromForm] int movieId)
@@ -190,8 +193,8 @@ namespace CreativeCollaboration.Controllers
             return RedirectToAction("Details", new { id = customerId });
         }
 
-        //POST ActorPage/UnlinkFromMovie
-        //DATA: actorId={actorId}&movieId={movieId}
+        //POST CustomerPage/UnlinkFromMovie
+        //DATA: customerId={customerId}&movieId={movieId}
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> UnlinkFromMovie([FromForm] int customerId, [FromForm] int movieId)
