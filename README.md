@@ -84,7 +84,7 @@ The StudioPage contains the following views:
 
 ## Services
 - **ActorService.cs**: Implements logic for actors, including linking/unlinking movies.
-- **MovieService.cs**: Implements logic for movies, including linking/unlinking actors.
+- **MovieService.cs**: Implements logic for movies, including linking/unlinking actors and customers.
 - **StudioService.cs**: Implements logic for studios.
 - **OrderService.cs**: Implements logic for orders, including processing new orders and updating order statuses.
 - **MenuItemService.cs**: Implements logic for menu items, such as managing availability, pricing, and descriptions.
@@ -112,6 +112,8 @@ The StudioPage contains the following views:
 - `GET /api/Movies/ListMoviesForStudio/{id}` - Retrieves movies associated with a specific studio.
 - `POST /api/Movies/Link?movieId={id}&actorId={id}` - Links an actor to a movie.
 - `DELETE /api/Movies/Unlink?movieId={id}&actorId={id}` - Unlinks an actor from a movie.
+- `POST /api/Movies/LinkMovie?movieId={id}&customerId={id}` - Links a customer to a movie.
+- `DELETE /api/Movies/UnlinkMovie?movieId={id}&customerId={id}` - Unlinks a customer from a movie.
 
 ### **Studio API**
 - `GET /api/Studios/List` - Retrieves a list of all studios.
@@ -121,7 +123,6 @@ The StudioPage contains the following views:
 - `DELETE /api/Studios/Delete/{id}` - Deletes a studio by ID.
 - `GET /api/Studios/ListStudioForMovie/{id}` - Retrieves the studio associated with a specific movie.
 
-
 ### **Customer API**
 - `GET /api/Customers/List` - Retrieves a list of all customers.
 - `GET /api/Customers/Find/{id}` - Retrieves a specific customer by ID.
@@ -129,6 +130,8 @@ The StudioPage contains the following views:
 - `POST /api/Customers/Add` - Adds a new customer.
 - `DELETE /api/Customers/Delete/{id}` - Deletes a customer by ID.
 - `GET /api/Customers/Orders/{id}` - Retrieves all orders placed by a specific customer.
+- `POST /api/Customers/Link?customerId={id}&movieId={id}` - Links a customer to a movie.
+- `DELETE /api/Customers/Unlink?customerId={id}&movieId={id}` - Unlinks a customer from a movie.
 
 ### **Order API**
 - `GET /api/Orders/List` - Retrieves a list of all orders.
