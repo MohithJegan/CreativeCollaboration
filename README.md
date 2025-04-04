@@ -147,3 +147,16 @@ The StudioPage contains the following views:
 - `PUT /api/MenuItems/Update/{id}` - Updates an existing menu item.
 - `POST /api/MenuItems/Add` - Adds a new menu item.
 - `DELETE /api/MenuItems/Delete/{id}` - Deletes a menu item by ID.
+
+## Contributors
+
+### Mohith Krishnamoorthy Jeganathan
+- `Customers Component` - CustomersController.cs, CustomersPageController.cs, ICustomerService.cs, Customer.cs, CustomerService.cs, CustomerPage(AddCustomer.cshtml,DeleteCustomer.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
+- `Movies Component` - MovieController.cs, MoviePageController.cs, IMovieService.cs, Movie.cs, MovieService.cs, MoviePage(New.cshtml,ConsfirmDelete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
+- `Orders Component` - OrdersController.cs, OrdersPageController.cs, IOrderService.cs, Order.cs, OrderService.cs, OrderPage(Add.cshtml,Delete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
+- `MenuItems Component` - MenuItemsController.cs, MenuItemsPageController.cs, IMenuItemService.cs, MenuItemSevice.cs, MenuItemPage(Add.cshtml,Delete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
+
+### Srivignesh Kavle Sathyanarayanan
+- `Customers Component` - CustomerPage(AddCustomer.cshtml,DeleteCustomer.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
+- `MenuItems Component` - MenuItemPage(Add.cshtml,Delete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
+- `Orders Component` - OrderPage(Add.cshtml,Delete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
