@@ -3,17 +3,37 @@
 <div class="container mt-4">
     <h2 class="fw-bold text-light">Menu Item Details</h2>
 
-    <!-- Card for Basic Information -->
-    <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
-         style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-        <div class="card-body text-center">
-            <h5 class="fw-bold text-light">Item Information</h5>
-            <hr style="border-color: rgba(255, 255, 255, 0.2);">
+    <!-- Row for 2-column layout -->
+    <div class="row mt-3">
+        <!-- Left Column: Details -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-lg rounded-4 p-4 h-100"
+                 style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <div class="card-body text-center">
+                    <h5 class="fw-bold text-light">Item Information</h5>
+                    <hr style="border-color: rgba(255, 255, 255, 0.2);">
 
-            <!-- Menu Item Details -->
-            <p class="text-light"><strong>Item Name:</strong> @Model.MName</p>
-            <p class="text-light"><strong>Description:</strong> @Model.Description</p>
-            <p class="text-light"><strong>Price:</strong> @Model.Price.ToString("C")</p>
+                    <p class="text-light"><strong>Item Name:</strong> @Model.MName</p>
+                    <p class="text-light"><strong>Description:</strong> @Model.Description</p>
+                    <p class="text-light"><strong>Price:</strong> @Model.Price.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Image -->
+        <div class="col-md-6 mb-4 d-flex align-items-center justify-content-center">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="Menu Image"
+                     class="img-fluid rounded shadow-lg"
+                     style="max-height: 500px; width: 100%; object-fit: contain; border: 1px solid rgba(255,255,255,0.2);" />
+            }
+            else
+            {
+                <div class="text-light text-center">
+                    <p><em>No image available for this menu item.</em></p>
+                </div>
+            }
         </div>
     </div>
 

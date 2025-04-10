@@ -15,6 +15,8 @@ namespace CreativeCollaboration.Models
         [Required]
         public float Price { get; set; }
 
+        public string? ImagePath { get; set; }
+
         // one menu item can be in many order items
         public ICollection<OrderItem> OrderItems { get; set; }
     }
@@ -34,6 +36,8 @@ namespace CreativeCollaboration.Models
 
         public int TotalOrders { get; set; }
 
+        public string? ImagePath { get; set; }
+
         public List<OrderDto>? Orders { get; set; } = new List<OrderDto>();
     }
 
@@ -49,5 +53,9 @@ namespace CreativeCollaboration.Models
 
         [Required]
         public float Price { get; set; }
+
+        public string? ImagePath { get; set; }
+
+        public IFormFile? ImageFile { get; set; }
     }
 }

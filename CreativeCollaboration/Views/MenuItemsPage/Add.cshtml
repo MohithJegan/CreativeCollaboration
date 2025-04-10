@@ -11,7 +11,7 @@
     <!-- Card -->
     <div class="card shadow-lg p-4 rounded-4 border-0"
          style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-        <form asp-action="AddMenuItem" method="post">
+        <form asp-action="AddMenuItem" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
 
@@ -40,6 +40,12 @@
                        style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;"
                        placeholder="Enter price" required />
                 <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <!-- Image -->
+            <div class="mb-3">
+                <label for="imageFile" class="form-label fw-semibold text-light">Upload Image</label>
+                <input asp-for="ImageFile" class="form-control shadow-sm" accept="image/*" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
 
             <!-- Submit Button -->

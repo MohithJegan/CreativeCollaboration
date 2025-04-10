@@ -7,9 +7,12 @@
     <div class="card border-0 shadow-lg rounded-4 p-4 mt-3"
          style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
         <div class="card-body">
-            <form asp-controller="MenuItemsPage" asp-action="Edit" asp-route-id="@Model.MenuItemId" method="post">
+
+            <form asp-controller="MenuItemsPage" asp-action="EditMenuItem" asp-route-id="@Model.MenuItemId" method="post" enctype="multipart/form-data">
+
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="MenuItemId" />
+                <input type="hidden" asp-for="ImagePath" />
 
                 <!-- Item Name -->
                 <div class="mb-3">
@@ -34,7 +37,15 @@
                            style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
+                <!-- Image Upload -->
+                <div class="mb-3">
+                    <label for="imageFile" class="form-label fw-bold text-light">Upload New Image:</label>
+                    <input asp-for="ImageFile" class="form-control"
+                           accept="image/*"
+                           style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;" />
 
+                </div>
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                 <!-- Buttons -->
                 <div class="d-flex">
                     <button type="submit" class="btn btn-primary"
@@ -46,6 +57,7 @@
                         Back to Details
                     </a>
                 </div>
+                
             </form>
         </div>
     </div>
