@@ -16,6 +16,7 @@
                    style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
                 <thead>
                     <tr>
+                        <th class="p-3 text-center text-light">Thumbnail</th>
                         <th class="p-3 text-center text-light">Item Name</th>
                         <th class="p-3 text-center text-light">Description</th>
                         <th class="p-3 text-center text-light">Price</th>
@@ -27,6 +28,12 @@
                     {
                         <tr class="align-middle"
                             style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                            <td class="p-3 text-center">
+                                <img src="@(!string.IsNullOrEmpty(item.ImagePath) ? item.ImagePath : "/images/default-menu-item.jpg")"
+                                     class="img-thumbnail"
+                                     style="height: 75px; width: 75px; object-fit: cover;"
+                                     alt="Menu Thumbnail" />
+                            </td>
                             <td class="p-3 text-center fw-semibold text-light">@item.MName</td>
                             <td class="p-3 text-center fw-semibold text-light">@item.Description</td>
                             <td class="p-3 text-center fw-semibold text-light">@item.Price.ToString("C")</td>
@@ -72,6 +79,7 @@
                    style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
                 <thead>
                     <tr>
+                        <th class="p-3 text-center text-light">Thumbnail</th>
                         <th class="p-3 text-center text-light">Item Name</th>
                         <th class="p-3 text-center text-light">Description</th>
                         <th class="p-3 text-center text-light">Price</th>
@@ -82,6 +90,12 @@
                     {
                         <tr class="align-middle"
                             style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                            <td class="p-3 text-center">
+                                <img src="@(!string.IsNullOrEmpty(item.ImagePath) ? item.ImagePath : "/images/default-menu-item.jpg")"
+                                     class="img-thumbnail"
+                                     style="height: 75px; width: 75px; object-fit: cover;"
+                                     alt="Menu Thumbnail" />
+                            </td>
                             <td class="p-3 text-center fw-semibold text-light">@item.MName</td>
                             <td class="p-3 text-center fw-semibold text-light">@item.Description</td>
                             <td class="p-3 text-center fw-semibold text-light">@item.Price.ToString("C")</td>  

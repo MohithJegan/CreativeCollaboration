@@ -137,6 +137,9 @@ namespace CreativeCollaboration.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

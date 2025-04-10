@@ -74,6 +74,22 @@ namespace CreativeCollaboration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(AUMenuItemDto addMenuItemDto)
         {
+            if (addMenuItemDto.ImageFile != null && addMenuItemDto.ImageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(addMenuItemDto.ImageFile.FileName);
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                Directory.CreateDirectory(uploadPath);
+                var filePath = Path.Combine(uploadPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await addMenuItemDto.ImageFile.CopyToAsync(stream);
+                }
+
+                addMenuItemDto.ImagePath = "/images/" + fileName;
+            }
+
+
             if (ModelState.IsValid)
             {
                 ServiceResponse response = await _menuItemService.AddMenuItem(addMenuItemDto);
@@ -105,22 +121,51 @@ namespace CreativeCollaboration.Controllers
                 MenuItemId = menuItem.MenuItemId,
                 MName = menuItem.MName,
                 Description = menuItem.Description,
-                Price = menuItem.Price
+                Price = menuItem.Price,
+                ImagePath = menuItem.ImagePath
             };
 
-            return View(updateMenuItemDto);
+            return View("Edit", updateMenuItemDto);
         }
 
-        // ✅ POST: MenuItemsPage/EditMenuItem/{id}
+        // POST: MenuItemsPage/EditMenuItem/{id}
         [HttpPost("EditMenuItem/{id}")]
         [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, AUMenuItemDto updateMenuItemDto)
         {
+            System.Diagnostics.Debug.WriteLine("EditMenuItem POST HIT");
             if (id != updateMenuItemDto.MenuItemId)
             {
                 return View("Error", new ErrorViewModel() { Errors = ["Menu item ID mismatch"] });
             }
+            if (updateMenuItemDto.ImageFile != null && updateMenuItemDto.ImageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updateMenuItemDto.ImageFile.FileName);
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                Directory.CreateDirectory(uploadPath);
+                var filePath = Path.Combine(uploadPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await updateMenuItemDto.ImageFile.CopyToAsync(stream);
+                }
+
+                updateMenuItemDto.ImagePath = "/images/" + fileName;
+            }
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    foreach (var error in ModelState[key].Errors)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"{key}: {error.ErrorMessage}");
+                    }
+                }
+                return View("Edit", updateMenuItemDto);
+            }
+
 
             if (ModelState.IsValid)
             {
@@ -134,7 +179,7 @@ namespace CreativeCollaboration.Controllers
                 return RedirectToAction("Details", new { id });
             }
 
-            return View(updateMenuItemDto);
+            return View("Edit", updateMenuItemDto);
         }
 
         // ✅ GET: MenuItemsPage/DeleteMenuItem/{id}

@@ -27,7 +27,8 @@ namespace Restaurant.Services
                     MenuItemId = m.MenuItemId,
                     MName = m.MName,
                     Price = m.Price,
-                    Description = m.Description
+                    Description = m.Description,
+                    ImagePath = m.ImagePath
                 })
                 .ToListAsync();
         }
@@ -42,7 +43,8 @@ namespace Restaurant.Services
                 MenuItemId = menuItem.MenuItemId,
                 MName = menuItem.MName,
                 Price = menuItem.Price,
-                Description = menuItem.Description
+                Description = menuItem.Description,
+                ImagePath = menuItem.ImagePath
             };
         }
 
@@ -54,7 +56,8 @@ namespace Restaurant.Services
             {
                 MName = menuItemDto.MName,
                 Price = menuItemDto.Price,
-                Description = menuItemDto.Description
+                Description = menuItemDto.Description,
+                ImagePath = menuItemDto.ImagePath
             };
 
             try
@@ -88,6 +91,7 @@ namespace Restaurant.Services
             menuItem.MName = menuItemDto.MName;
             menuItem.Price = menuItemDto.Price;
             menuItem.Description = menuItemDto.Description;
+            menuItem.ImagePath = menuItemDto.ImagePath;
 
             try
             {
