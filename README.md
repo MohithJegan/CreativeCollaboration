@@ -155,6 +155,7 @@ The StudioPage contains the following views:
 - `Movies Component` - MovieController.cs, MoviePageController.cs, IMovieService.cs, Movie.cs, MovieService.cs, MoviePage(New.cshtml,ConsfirmDelete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
 - `Orders Component` - OrdersController.cs, OrdersPageController.cs, IOrderService.cs, Order.cs, OrderService.cs, OrderPage(Add.cshtml,Delete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
 - `MenuItems Component` - MenuItemsController.cs, MenuItemsPageController.cs, IMenuItemService.cs, MenuItemSevice.cs, MenuItemPage(Add.cshtml,Delete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
+- Feature Enhancement: Added additional search functionality, integration of Administration, Role Authorization, Login functionality, Conditional Access, Conditional Rendering and styled the application to improve the user experience.
 
 ### Srivignesh Kavle Sathyanarayanan
 - `Customers Component` - CustomerPage(AddCustomer.cshtml,DeleteCustomer.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
