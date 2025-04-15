@@ -65,6 +65,9 @@ namespace CreativeCollaboration.Controllers
                     Name = customer.Name,
                     Email = customer.Email,
                     Phone = customer.Phone,
+                    City = customer.City,
+                    State = customer.State,
+                    Country = customer.Country,
                     CustomerAccountId = customer.CustomerAccountId,
                     LastOrderDate = lastOrder?.OrderDate ?? (new DateOnly(DateOnly.FromDateTime(DateTime.Now).Year, DateOnly.FromDateTime(DateTime.Now).Month, DateOnly.FromDateTime(DateTime.Now).Day)),
                     LastOrderPrice = lastOrder?.OrderItems?.Sum(oi => oi.TotalPrice) ?? 0
