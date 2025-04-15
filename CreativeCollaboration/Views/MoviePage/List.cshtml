@@ -1,12 +1,31 @@
 ﻿@model IEnumerable<MovieDto>
 
 @{
-
     ViewData["Title"] = "Movies List";
-
 }
 
-@if (@ViewData["User"] == "Admin") {
+<div class="container mt-4">
+    <div class="search-container position-relative mb-4">
+        <input type="text" id="searchBar" class="form-control search-input"
+               placeholder="Search movies..."
+               style="background: rgba(255, 255, 255, 0.1);
+                      border: 1px solid rgba(255, 255, 255, 0.2);
+                      color: white;
+                      border-radius: 50px;
+                      padding: 12px 20px 12px 45px;
+                      backdrop-filter: blur(10px);
+                      transition: all 0.3s ease;">
+        <i class="fas fa-search search-icon"
+           style="position: absolute;
+                  left: 20px;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  color: rgba(255, 255, 255, 0.6);"></i>
+    </div>
+</div>
+
+@if (@ViewData["User"] == "Admin")
+{
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="text-primary fw-bold text-light">Movie List</h2>
@@ -20,14 +39,10 @@
             @foreach (var Movie in Model)
             {
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <!-- Card -->
                     <div class="card shadow-sm border-0"
                          style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease-in-out;">
                         <div class="card-body text-center">
-                            <!-- Movie Title -->
                             <h5 class="card-title fw-bold" style="color: white;">@Movie.MovieTitle</h5>
-
-                            <!-- View Details Button -->
                             <a href="/MoviePage/Details/@Movie.MovieID" class="btn btn-primary btn-sm"
                                style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
                                 View Details
@@ -47,14 +62,10 @@
             @foreach (var Movie in Model)
             {
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <!-- Card -->
                     <div class="card shadow-sm border-0"
                          style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease-in-out;">
                         <div class="card-body text-center">
-                            <!-- Movie Title -->
                             <h5 class="card-title fw-bold" style="color: white;">@Movie.MovieTitle</h5>
-
-                            <!-- View Details Button -->
                             <a href="/MoviePage/Details/@Movie.MovieID" class="btn btn-primary btn-sm"
                                style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
                                 View Details
@@ -66,3 +77,36 @@
         </div>
     </div>
 }
+
+<style>
+    .search-input:hover {
+        border-color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .search-input:focus {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+        outline: none;
+        color: white;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchBar = document.getElementById('searchBar');
+        searchBar.addEventListener('input', function () {
+            const searchValue = searchBar.value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                if (title.includes(searchValue)) {
+                    card.closest('.col-lg-4').style.display = 'block';
+                } else {
+                    card.closest('.col-lg-4').style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
