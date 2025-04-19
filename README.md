@@ -161,4 +161,4 @@ The StudioPage contains the following views:
 - `Customers Component` - CustomerPage(AddCustomer.cshtml,DeleteCustomer.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
 - `MenuItems Component` - MenuItemPage(Add.cshtml,Delete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
 - `Orders Component` - OrderPage(Add.cshtml,Delete.cshtml,Details.cshtml,Edit.cshtml,List.cshtml)
-- Feature Enhancement: Added additional interactive functionality, such as integration of TinyMCE rich text editor to enhance text input areas and improve user experience across the application.
+- Feature Enhancement: Added functionality to allow image uploads when creating or editing menu items. This enhancement improves the visual experience of the application by enabling users or admins to attach relevant images alongside menu details, making the interface more engaging and informative.
